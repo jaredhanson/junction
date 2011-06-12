@@ -1,13 +1,13 @@
 {
-  "name": "inflect",
-  "version": "0.0.0",
+  "name": "junction",
+  "version": "0.1.0",
   "description": "XMPP middleware framework.",
   "author": "Jared Hanson <jaredhanson@gmail.com> (http://www.jaredhanson.net/)",
   "repository": {
     "type": "git",
-    "url": "http://github.com/jaredhanson/inflect.git"
+    "url": "http://github.com/jaredhanson/junction.git"
   },
-  "main": "./lib/inflect",
+  "main": "./lib/junction",
   "dependencies": {
     "node-xmpp": ">= 0.2.9"
   },

@@ -1,5 +1,5 @@
 require.paths.unshift('../lib')
-var inflect = require('inflect');
+var junction = require('junction');
 
 var options = {
   type: 'client',
@@ -9,16 +9,16 @@ var options = {
   port: 5222
 };
 
-var connection = inflect.createConnection(options);
-connection.use(inflect.logger());
-connection.use(inflect.serviceDiscovery([ { category: 'client', type: 'bot' } ],
+var connection = junction.createConnection(options);
+connection.use(junction.logger());
+connection.use(junction.serviceDiscovery([ { category: 'client', type: 'bot' } ],
                                         ['http://jabber.org/protocol/disco#info']));
-connection.use(inflect.serviceUnavailable());
-connection.use(inflect.errorHandler());
+connection.use(junction.serviceUnavailable());
+connection.use(junction.errorHandler());
 
 connection.on('online', function() {
   console.log('ONLINE!');
-  connection.send(new inflect.Element('presence'));
+  connection.send(new junction.Element('presence'));
 });
 
 connection.on('error', function(err) {
