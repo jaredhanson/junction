@@ -11,5 +11,6 @@
   "dependencies": {
     "node-xmpp": ">= 0.2.9"
   },
-  "engines": { "node": ">= 0.4.0" }
+  "engines": { "node": ">= 0.4.0" },
+  "keywords": ["xmpp", "jabber", "middleware"]
 }
