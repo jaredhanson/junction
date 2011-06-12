@@ -1,5 +1,4 @@
 require.paths.unshift('../lib')
-var xmpp = require('node-xmpp');
 var inflect = require('inflect');
 
 var options = {
@@ -11,15 +10,15 @@ var options = {
 };
 
 var connection = inflect.createConnection(options);
-connection.use(inflect.logger);
-connection.use(inflect.serviceDiscovery, [ { category: 'client', type: 'bot' } ],
-                                         ['http://jabber.org/protocol/disco#info'] );
-connection.use(inflect.serviceUnavailable);
-connection.use(inflect.errorHandler);
+connection.use(inflect.logger());
+connection.use(inflect.serviceDiscovery([ { category: 'client', type: 'bot' } ],
+                                        ['http://jabber.org/protocol/disco#info']));
+connection.use(inflect.serviceUnavailable());
+connection.use(inflect.errorHandler());
 
 connection.on('online', function() {
   console.log('ONLINE!');
-  connection.send(new xmpp.Element('presence'));
+  connection.send(new inflect.Element('presence'));
 });
 
 connection.on('error', function(err) {
