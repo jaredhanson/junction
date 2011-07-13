@@ -42,6 +42,7 @@ vows.describe('Client').addBatch({
       var next = obj.next;
       
       assert.isNotNull(req);
+      assert.instanceOf(req.connection, Client);
       assert.equal(req.id, 1);
       assert.equal(req.from, 'juliet@example.com');
       assert.equal(req.to, 'romeo@example.net');
@@ -79,6 +80,7 @@ vows.describe('Client').addBatch({
       var next = obj.next;
       
       assert.isNotNull(req);
+      assert.instanceOf(req.connection, Client);
       assert.equal(req.id, 1);
       assert.equal(req.from, 'juliet@example.com');
       assert.equal(req.to, 'romeo@example.net');
@@ -120,6 +122,7 @@ vows.describe('Client').addBatch({
       var next = obj.next;
       
       assert.isNotNull(stanza);
+      assert.instanceOf(stanza.connection, Client);
       assert.equal(stanza.id, 1);
       assert.equal(stanza.from, 'juliet@example.com');
       assert.equal(stanza.to, 'romeo@example.net');
@@ -155,6 +158,7 @@ vows.describe('Client').addBatch({
       var next = obj.next;
       
       assert.isNotNull(stanza);
+      assert.instanceOf(stanza.connection, Client);
       assert.equal(stanza.id, 1);
       assert.equal(stanza.from, 'juliet@example.com');
       assert.equal(stanza.to, 'romeo@example.net');
@@ -189,6 +193,7 @@ vows.describe('Client').addBatch({
       var next = obj.next;
       
       assert.isNotNull(stanza);
+      assert.instanceOf(stanza.connection, Client);
       assert.equal(stanza.from, 'juliet@example.com');
       assert.equal(stanza.to, 'romeo@example.net');
       assert.equal(stanza.type, 'chat');
@@ -222,6 +227,7 @@ vows.describe('Client').addBatch({
       var next = obj.next;
       
       assert.isNotNull(stanza);
+      assert.instanceOf(stanza.connection, Client);
       assert.equal(stanza.from, 'juliet@example.com');
       assert.equal(stanza.to, 'romeo@example.net');
       assert.equal(stanza.type, 'probe');
