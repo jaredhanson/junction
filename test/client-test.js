@@ -1,6 +1,7 @@
 var vows = require('vows');
 var assert = require('assert');
 var events = require('events');
+var xmpp = require('node-xmpp');
 var util = require('util');
 var Client = require('junction/client');
 var IQ = require('junction/elements/iq');
@@ -295,6 +296,97 @@ vows.describe('Client').addBatch({
     'should dispatch to error handling middleware': function (err, obj) {
       if (err) { assert.fail(err); }
       assert.equal(this.calls, 2);
+    },
+  },
+  
+  'send() with string argument': {
+    topic: function() {
+      var self = this;
+      var mockSocket = {
+        write: function(string) {
+          console.log('MOCK WRITE');
+          self.callback(null, string);
+        },
+        writable: true
+      };
+      
+      var c = new Client({ jid: 'romeo@example.net' });
+      c.socket = mockSocket;
+      c.send('<iq/>');
+    },
+    
+    'should send string': function (err, output) {
+      if (err) { assert.fail(err); }
+      assert.equal(output, '<iq/>');
+    },
+  },
+  
+  'send() with string argument': {
+    topic: function() {
+      var self = this;
+      var mockSocket = {
+        write: function(string) {
+          self.callback(null, string);
+        },
+        writable: true
+      };
+      
+      var c = new Client({ jid: 'romeo@example.net' });
+      c.socket = mockSocket;
+      c.send('<iq/>');
+    },
+    
+    'should send string': function (err, output) {
+      if (err) { assert.fail(err); }
+      assert.equal(output, '<iq/>');
+    },
+  },
+  
+  'send() with XML element argument': {
+    topic: function() {
+      var self = this;
+      var buffer = '';
+      var mockSocket = {
+        write: function(string) {
+          buffer += string;
+        },
+        writable: true
+      };
+      
+      var c = new Client({ jid: 'romeo@example.net' });
+      var el = new xmpp.Element('iq', { id: '1',
+                                        to: 'juliet@capulet.com/balcony',
+                                        type: 'result' });
+      c.socket = mockSocket;
+      c.send(el);
+      return buffer;
+    },
+    
+    'should send XML element serialized as string': function (output) {
+      assert.equal(output, '<iq id="1" to="juliet@capulet.com/balcony" type="result"/>');
+    },
+  },
+  
+  'send() with Element argument': {
+    topic: function() {
+      var self = this;
+      var buffer = '';
+      var mockSocket = {
+        write: function(string) {
+          buffer += string;
+        },
+        writable: true
+      };
+      
+      var c = new Client({ jid: 'romeo@example.net' });
+      var message = new Message('juliet@example.com');
+      c.socket = mockSocket;
+      c.send(message);
+      return buffer;
+    },
+    
+    'should send XML element serialized as string': function (output) {
+      assert.equal(output, '<message to="juliet@example.com"/>');
     },
   },
   
