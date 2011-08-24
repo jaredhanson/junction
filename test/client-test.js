@@ -304,28 +304,6 @@ vows.describe('Client').addBatch({
       var self = this;
       var mockSocket = {
         write: function(string) {
-          console.log('MOCK WRITE');
-          self.callback(null, string);
-        },
-        writable: true
-      };
-      
-      var c = new Client({ jid: 'romeo@example.net' });
-      c.socket = mockSocket;
-      c.send('<iq/>');
-    },
-    
-    'should send string': function (err, output) {
-      if (err) { assert.fail(err); }
-      assert.equal(output, '<iq/>');
-    },
-  },
-  
-  'send() with string argument': {
-    topic: function() {
-      var self = this;
-      var mockSocket = {
-        write: function(string) {
           self.callback(null, string);
         },
         writable: true
@@ -367,7 +345,7 @@ vows.describe('Client').addBatch({
     },
   },
   
-  'send() with Element argument': {
+  'send() with Junction Element argument': {
     topic: function() {
       var self = this;
       var buffer = '';
@@ -385,7 +363,7 @@ vows.describe('Client').addBatch({
       return buffer;
     },
     
-    'should send XML element serialized as string': function (output) {
+    'should send Junction element serialized as string': function (output) {
       assert.equal(output, '<message to="juliet@example.com"/>');
     },
   },
