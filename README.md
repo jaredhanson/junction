@@ -1,7 +1,7 @@
 # Junction
 
-  Junction is an extensible XMPP component framework for [Node](http://nodejs.org),
-  providing high-performance "plugins" known as _middleware_ and _filters_.
+Junction is an extensible XMPP component framework for [Node](http://nodejs.org),
+providing high-performance "plugins" known as _middleware_ and _filters_.
 
 ## Installation
 
