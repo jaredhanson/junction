@@ -44,6 +44,8 @@ vows.describe('Client').addBatch({
       
       assert.isNotNull(req);
       assert.instanceOf(req.connection, Client);
+      assert.instanceOf(req.from, xmpp.JID);
+      assert.instanceOf(req.to, xmpp.JID);
       assert.equal(req.id, 1);
       assert.equal(req.from, 'juliet@example.com');
       assert.equal(req.to, 'romeo@example.net');
