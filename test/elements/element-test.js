@@ -1,5 +1,6 @@
 var vows = require('vows');
 var assert = require('assert');
+var xmpp = require('node-xmpp');
 var junction = require('junction');
 var Element = require('junction/elements/element');
 
@@ -111,6 +112,75 @@ vows.describe('Element').addBatch({
           'should build correct string': function(xml) {
             assert.equal(xml.toString(), '<parent><child/><second-child/></parent>');
           },
+        },
+      },
+    },
+  },
+  
+  'with children that are instances of ltx.Element': {
+    topic: function() {
+      return new Element('parent');
+    },
+    
+    'after appending a child': {
+      topic: function(parent) {
+        this.parent = parent;
+        return parent.c(new xmpp.Element('element'));
+      },
+      
+      'should convert to XML': {
+        topic: function(child, parent) {
+          return parent.toXML();
+        },
+
+        'should build correct string': function(xml) {
+          assert.equal(xml.toString(), '<parent><element/></parent>');
+        },
+      },
+    },
+  },
+  
+  'with children that are instances of String': {
+    topic: function() {
+      return new Element('parent');
+    },
+    
+    'after appending a child': {
+      topic: function(parent) {
+        this.parent = parent;
+        return parent.c('text');
+      },
+      
+      'should convert to XML': {
+        topic: function(child, parent) {
+          return parent.toXML();
+        },
+
+        'should build correct string': function(xml) {
+          assert.equal(xml.toString(), '<parent>text</parent>');
+        },
+      },
+    },
+  },
+  
+  'with children passed as name and attrs': {
+    topic: function() {
+      return new Element('parent');
+    },
+    
+    'after appending a child': {
+      topic: function(parent) {
+        this.parent = parent;
+        return parent.c('element', { xmlns: 'urn:test' });
+      },
+      
+      'should convert to XML': {
+        topic: function(child, parent) {
+          return parent.toXML();
+        },
+
+        'should build correct string': function(xml) {
+          assert.equal(xml.toString(), '<parent><element xmlns="urn:test"/></parent>');
         },
       },
     },
