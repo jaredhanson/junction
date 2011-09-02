@@ -1,6 +1,7 @@
 var vows = require('vows');
 var assert = require('assert');
 var util = require('util');
+var xmpp = require('node-xmpp');
 var junction = require('junction');
 var IQ = require('junction/elements/iq');
 var delayParser = require('junction/middleware/delayParser');
@@ -29,9 +30,13 @@ vows.describe('delayParser').addBatch({
         });
       },
       
-      'should set sentAt property' : function(err, stanza) {
-        assert.instanceOf(stanza.sentAt, Date);
-        assert.equal(stanza.sentAt.toUTCString(), 'Tue, 10 Sep 2002 23:08:25 GMT');
+      'should set delayedBy property' : function(err, stanza) {
+        assert.instanceOf(stanza.delayedBy, xmpp.JID);
+        assert.equal(stanza.delayedBy, 'capulet.com');
+      },
+      'should set originallySentAt property' : function(err, stanza) {
+        assert.instanceOf(stanza.originallySentAt, Date);
+        assert.equal(stanza.originallySentAt.toUTCString(), 'Tue, 10 Sep 2002 23:08:25 GMT');
       },
     },
     
@@ -48,8 +53,11 @@ vows.describe('delayParser').addBatch({
         });
       },
       
-      'should not set sentAt property' : function(err, stanza) {
-        assert.isUndefined(stanza.sentAt);
+      'should not set delayedBy property' : function(err, stanza) {
+        assert.isUndefined(stanza.delayedBy);
+      },
+      'should not set originallySentAt property' : function(err, stanza) {
+        assert.isUndefined(stanza.originallySentAt);
       },
     },
     
@@ -69,9 +77,13 @@ vows.describe('delayParser').addBatch({
         });
       },
       
-      'should set sentAt property' : function(err, stanza) {
-        assert.instanceOf(stanza.sentAt, Date);
-        assert.equal(stanza.sentAt.toUTCString(), 'Tue, 10 Sep 2002 23:08:25 GMT');
+      'should set delayedBy property' : function(err, stanza) {
+        assert.instanceOf(stanza.delayedBy, xmpp.JID);
+        assert.equal(stanza.delayedBy, 'capulet.com');
+      },
+      'should set originallySentAt property' : function(err, stanza) {
+        assert.instanceOf(stanza.originallySentAt, Date);
+        assert.equal(stanza.originallySentAt.toUTCString(), 'Tue, 10 Sep 2002 23:08:25 GMT');
       },
     },
     
@@ -88,8 +100,11 @@ vows.describe('delayParser').addBatch({
         });
       },
       
-      'should not set sentAt property' : function(err, stanza) {
-        assert.isUndefined(stanza.sentAt, Date);
+      'should not set delayedBy property' : function(err, stanza) {
+        assert.isUndefined(stanza.delayedBy);
+      },
+      'should not set originallySentAt property' : function(err, stanza) {
+        assert.isUndefined(stanza.originally, Date);
       },
     },
     
@@ -107,8 +122,11 @@ vows.describe('delayParser').addBatch({
         });
       },
       
-      'should not set sentAt property' : function(err, stanza) {
-        assert.isUndefined(stanza.sentAt);
+      'should not set delayedBy property' : function(err, stanza) {
+        assert.isUndefined(stanza.delayedBy);
+      },
+      'should not set originallySentAt property' : function(err, stanza) {
+        assert.isUndefined(stanza.originallySentAt);
       },
     },
   },
