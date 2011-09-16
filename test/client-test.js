@@ -13,7 +13,7 @@ vows.describe('Client').addBatch({
   
   'initialization': {
     topic: function() {
-      return new Client({ jid: 'romeo@example.net' });
+      return new Client({ jid: 'romeo@example.net', disableStream: true });
     },
     
     'should have an empty stack': function (c) {
@@ -25,7 +25,7 @@ vows.describe('Client').addBatch({
     topic: function() {
       var self = this;
       var promise = new(events.EventEmitter);
-      var c = new Client({ jid: 'romeo@example.net' });
+      var c = new Client({ jid: 'romeo@example.net', disableStream: true });
       c.use(function(req, res, next) {
         promise.emit('success', {req: req, res: res, next: next});
       });
@@ -65,7 +65,7 @@ vows.describe('Client').addBatch({
     topic: function() {
       var self = this;
       var promise = new(events.EventEmitter);
-      var c = new Client({ jid: 'romeo@example.net' });
+      var c = new Client({ jid: 'romeo@example.net', disableStream: true });
       c.use(function(req, res, next) {
         promise.emit('success', {req: req, res: res, next: next});
       });
@@ -103,7 +103,7 @@ vows.describe('Client').addBatch({
     topic: function() {
       var self = this;
       var promise = new(events.EventEmitter);
-      var c = new Client({ jid: 'romeo@example.net' });
+      var c = new Client({ jid: 'romeo@example.net', disableStream: true });
       c.use(function(req, res, next) {
         promise.emit('error', 'should not dispatch IQ result stanza with request-response semantics');
       });
@@ -139,7 +139,7 @@ vows.describe('Client').addBatch({
     topic: function() {
       var self = this;
       var promise = new(events.EventEmitter);
-      var c = new Client({ jid: 'romeo@example.net' });
+      var c = new Client({ jid: 'romeo@example.net', disableStream: true });
       c.use(function(req, res, next) {
         promise.emit('error', 'should not dispatch IQ error stanza with request-response semantics');
       });
@@ -175,7 +175,7 @@ vows.describe('Client').addBatch({
     topic: function() {
       var self = this;
       var promise = new(events.EventEmitter);
-      var c = new Client({ jid: 'romeo@example.net' });
+      var c = new Client({ jid: 'romeo@example.net', disableStream: true });
       c.use(function(req, res, next) {
         promise.emit('error', 'should not dispatch message stanza with request-response semantics');
       });
@@ -209,7 +209,7 @@ vows.describe('Client').addBatch({
     topic: function() {
       var self = this;
       var promise = new(events.EventEmitter);
-      var c = new Client({ jid: 'romeo@example.net' });
+      var c = new Client({ jid: 'romeo@example.net', disableStream: true });
       c.use(function(req, res, next) {
         promise.emit('error', 'should not dispatch presence stanza with request-response semantics');
       });
@@ -244,7 +244,7 @@ vows.describe('Client').addBatch({
       var self = this;      
       this.calls = 0;
       var promise = new(events.EventEmitter);
-      var c = new Client({ jid: 'romeo@example.net' });
+      var c = new Client({ jid: 'romeo@example.net', disableStream: true });
       c.use(function(stanza, next) {
         self.calls++;
         next();
@@ -271,7 +271,7 @@ vows.describe('Client').addBatch({
       var self = this;      
       this.calls = 0;
       var promise = new(events.EventEmitter);
-      var c = new Client({ jid: 'romeo@example.net' });
+      var c = new Client({ jid: 'romeo@example.net', disableStream: true });
       c.use(function(stanza, next) {
         next(new Error('lame'));
       });
@@ -311,7 +311,7 @@ vows.describe('Client').addBatch({
         writable: true
       };
       
-      var c = new Client({ jid: 'romeo@example.net' });
+      var c = new Client({ jid: 'romeo@example.net', disableStream: true });
       c.socket = mockSocket;
       c.send('<iq/>');
     },
@@ -333,7 +333,7 @@ vows.describe('Client').addBatch({
         writable: true
       };
       
-      var c = new Client({ jid: 'romeo@example.net' });
+      var c = new Client({ jid: 'romeo@example.net', disableStream: true });
       var el = new xmpp.Element('iq', { id: '1',
                                         to: 'juliet@capulet.com/balcony',
                                         type: 'result' });
@@ -358,7 +358,7 @@ vows.describe('Client').addBatch({
         writable: true
       };
       
-      var c = new Client({ jid: 'romeo@example.net' });
+      var c = new Client({ jid: 'romeo@example.net', disableStream: true });
       var message = new Message('juliet@example.com');
       c.socket = mockSocket;
       c.send(message);
