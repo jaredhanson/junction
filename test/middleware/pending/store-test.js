@@ -17,6 +17,9 @@ vows.describe('Store').addBatch({
     'set should throw an exception': function (store) {
       assert.throws(function() { store.set('key', {}, function(){}); }, Error);
     },
+    'remove should throw an exception': function (store) {
+      assert.throws(function() { store.remove('key', {}, function(){}); }, Error);
+    },
   },
   
 }).export(module);

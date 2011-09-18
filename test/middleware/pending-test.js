@@ -27,6 +27,9 @@ MockStore.prototype.set = function(key, data, callback) {
   callback && callback();
 }
 
+MockStore.prototype.remove = function(key, callback) {
+}
+
 
 vows.describe('pending').addBatch({
 
