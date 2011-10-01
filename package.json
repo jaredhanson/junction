@@ -1,6 +1,6 @@
 {
   "name": "junction",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "XMPP middleware framework.",
   "author": "Jared Hanson <jaredhanson@gmail.com> (http://www.jaredhanson.net/)",
   "repository": {
