@@ -1,11 +1,20 @@
 var vows = require('vows');
 var assert = require('assert');
 var junction = require('junction');
-var junction = require('junction');
 var util = require('util');
 
 
 vows.describe('Library').addBatch({
+  
+  'junction': {
+    topic: function() {
+      return null;
+    },
+    
+    'should report a version': function (x) {
+      assert.isString(junction.version);
+    },
+  },
   
   'create connection with client type': {
     topic: function() {
