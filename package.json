@@ -9,8 +9,11 @@
   },
   "main": "./lib/junction",
   "dependencies": {
-    "node-xmpp": ">= 0.2.9",
-    "node-uuid": ">= 1.2.0"
+    "node-xmpp": "0.2.x",
+    "node-uuid": "1.x.x"
+  },
+  "devDependencies": {
+    "vows": "0.6.x"
   },
   "engines": { "node": ">= 0.4.0" },
   "keywords": ["xmpp", "jabber", "middleware"]

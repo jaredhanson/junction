@@ -48,7 +48,7 @@ vows.describe('time').addBatch({
         //       <iq id="time_1" to="romeo@montague.net/orchard" type="result"><time xmlns="urn:xmpp:time"><utc>2011-09-07T04:34:13Z</utc><tzo>-07:00</tzo></time></iq>
         //        Because the time is different each time this test is executed,
         //        just assert that the length is as expected.
-        assert.length(stanza.toString(), 150);
+        assert.lengthOf(stanza.toString(), 150);
       },
     },
     

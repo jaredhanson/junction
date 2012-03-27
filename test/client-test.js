@@ -17,7 +17,7 @@ vows.describe('Client').addBatch({
     },
     
     'should have an empty stack': function (c) {
-      assert.length(c._stack, 0);
+      assert.lengthOf(c._stack, 0);
     },
   },
   

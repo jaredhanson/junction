@@ -48,7 +48,7 @@ vows.describe('legacyTime').addBatch({
         //       <iq id="time_1" to="romeo@montague.net/orchard" type="result"><query xmlns="jabber:iq:time"><utc>20110908T03:37:10</utc></query></iq>
         //       Because the time is different each time this test is executed,
         //       just assert that the length is as expected.
-        assert.length(stanza.toString(), 133);
+        assert.lengthOf(stanza.toString(), 133);
       },
     },
     

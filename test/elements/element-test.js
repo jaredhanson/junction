@@ -75,7 +75,7 @@ vows.describe('Element').addBatch({
       },
       
       'parent should have one child': function(child) {
-        assert.length(this.parent.children, 1);
+        assert.lengthOf(this.parent.children, 1);
       },
       'parent should include child': function(child) {
         assert.include(this.parent.children, child);
@@ -102,7 +102,7 @@ vows.describe('Element').addBatch({
         },
 
         'parent should have two children': function(child) {
-          assert.length(this.parent.children, 2);
+          assert.lengthOf(this.parent.children, 2);
         },
         'should convert to XML': {
           topic: function(secondChild, child, parent) {
