@@ -1,7 +1,7 @@
 {
   "name": "junction",
   "version": "0.1.3",
-  "description": "XMPP middleware framework.",
+  "description": "Essential XMPP middleware for Node.js.",
   "author": "Jared Hanson <jaredhanson@gmail.com> (http://www.jaredhanson.net/)",
   "repository": {
     "type": "git",

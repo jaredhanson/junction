@@ -10,7 +10,7 @@ docs: docs/api.html
 docs/api.html: lib/junction/*.js
 	dox \
 		--title Junction \
-		--desc "XMPP middleware framework" \
+		--desc "Essential XMPP middleware for Node.js" \
 		$(shell find lib/junction/* -type f) > $@
 
 docclean:
