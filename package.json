@@ -17,6 +17,7 @@
   } ],
   "main": "./lib/junction",
   "dependencies": {
+    "pkginfo": "0.2.x",
     "node-xmpp": "0.3.x",
     "node-uuid": "1.x.x",
     "debug": "0.7.x"
