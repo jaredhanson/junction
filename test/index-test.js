@@ -39,26 +39,4 @@ vows.describe('junction').addBatch({
     assert.isFunction(junction.StanzaError);
   },
   
-  /*
-  'create connection with client type': {
-    topic: function() {
-      return new junction.createConnection({ type: 'client', jid: 'user@invalid.host', disableStream: true });
-    },
-    
-    'should be an instance of Client': function (c) {
-      assert.instanceOf(c, junction.Client);
-    },
-  },
-  
-  'create connection with component type': {
-    topic: function() {
-      return new junction.createConnection({ type: 'component', jid: 'component.invalid.host', host: 'invalid.host', port: 5060, disableStream: true });
-    },
-    
-    'should be an instance of Component': function (c) {
-      assert.instanceOf(c, junction.Component);
-    },
-  },
-  */
-  
 }).export(module);

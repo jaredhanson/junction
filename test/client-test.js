@@ -3,13 +3,39 @@ var assert = require('assert');
 var events = require('events');
 var xmpp = require('node-xmpp');
 var util = require('util');
-var Client = require('junction/client');
+var junction = require('junction');
 var IQ = require('junction/elements/iq');
 var Message = require('junction/elements/message');
 var Presence = require('junction/elements/presence');
 
 
-vows.describe('Client').addBatch({
+vows.describe('application').addBatch({
+  
+  // NOTE: Disabled by default to avoid network access while running tests.
+  /*
+  'connect as an XMPP client': {
+    topic: function() {
+      return new junction.create().connect({ type: 'client', jid: 'user@invalid.host', disableStream: true });
+    },
+    
+    'should be an instance of Client': function (c) {
+      assert.instanceOf(c, xmpp.Client);
+    },
+  },
+  */
+  
+  // NOTE: Disabled by default to avoid network access while running tests.
+  /*
+  'connect as an XMPP component': {
+    topic: function() {
+      return new junction.create().connect({ type: 'component', jid: 'component.invalid.host', host: 'invalid.host', port: 5060, disableStream: true });
+    },
+    
+    'should be an instance of Component': function (c) {
+      assert.instanceOf(c, xmpp.Component);
+    },
+  },
+  */
   
   /*
   'initialization': {
