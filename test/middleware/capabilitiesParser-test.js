@@ -38,7 +38,11 @@ vows.describe('capabilitiesParser').addBatch({
         assert.equal(stanza.capabilities.hash, 'sha-1');
       },
       'should set verification property' : function(err, stanza) {
+        assert.equal(stanza.capabilities.ver, 'QgayPKawpkPSDYmwT/WM94uAlu0=');
         assert.equal(stanza.capabilities.verification, 'QgayPKawpkPSDYmwT/WM94uAlu0=');
+      },
+      'should alias caps to capabilities' : function(err, stanza) {
+        assert.equal(stanza.caps, stanza.capabilities);
       },
     },
     

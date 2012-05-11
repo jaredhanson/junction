@@ -54,7 +54,7 @@ vows.describe('attentionParser').addBatch({
       },
     },
     
-    'when handling a non-presence stanza': {
+    'when handling a non-message stanza': {
       topic: function(attentionParser) {
         var self = this;
         var iq = new IQ('romeo@example.net', 'juliet@example.com', 'get');
