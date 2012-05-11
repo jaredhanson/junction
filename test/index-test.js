@@ -6,6 +6,7 @@ var util = require('util');
 
 vows.describe('Library').addBatch({
   
+  /*
   'junction': {
     topic: function() {
       return null;
@@ -35,5 +36,6 @@ vows.describe('Library').addBatch({
       assert.instanceOf(c, junction.Component);
     },
   },
+  */
   
 }).export(module);
