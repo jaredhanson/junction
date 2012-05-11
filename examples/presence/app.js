@@ -10,11 +10,7 @@ var options = {
   password: argv.P
 };
 
-var connection = junction.createConnection(options);
-connection.on('online', function() {
-  console.log('Connected as: ' + connection.jid);
-  connection.send(new junction.elements.Presence());
-});
+var connection = junction.create();
 
 connection.use(junction.presence(function(handler) {
   handler.on('available', function(stanza) {
@@ -27,3 +23,9 @@ connection.use(junction.presence(function(handler) {
 
 connection.use(junction.serviceUnavailable());
 connection.use(junction.errorHandler());
+connection.filter(junction.filters.dump());
+
+connection.connect(options).on('online', function() {
+  console.log('Connected as: ' + this.jid);
+  this.send(new junction.elements.Presence());
+});
