@@ -37,17 +37,37 @@ vows.describe('application').addBatch({
   },
   */
   
-  /*
   'initialization': {
     topic: function() {
-      return new Client({ jid: 'romeo@example.net', disableStream: true });
+      return junction();
     },
     
-    'should have an empty stack': function (c) {
-      assert.lengthOf(c._stack, 0);
+    'should have functions': function (app) {
+      assert.isFunction(app.use);
+      assert.isFunction(app.filter);
+      assert.isFunction(app.handle);
+      assert.isFunction(app.send);
+      assert.isFunction(app.setup);
+      assert.isFunction(app.connect);
+    },
+    'should have an empty stack': function (app) {
+      assert.lengthOf(app._stack, 0);
+      assert.lengthOf(app._filters, 0);
     },
   },
   
+  'initialization with muddleware': {
+    topic: function() {
+      return junction(function(stanza, next) {},
+                      function(stanza, next) {});
+    },
+    
+    'should put middleware on stack': function (app) {
+      assert.lengthOf(app._stack, 2);
+    },
+  },
+  
+  /*
   'handles IQ "get" stanzas': {
     topic: function() {
       var self = this;
