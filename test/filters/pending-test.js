@@ -21,6 +21,8 @@ MockStore.prototype.get = function(key, callback) {
 }
 
 MockStore.prototype.set = function(key, data, callback) {
+  if (this.simulateError) { return callback(new Error('Failed to set data in pending store')); }
+  
   this._store[key] = JSON.stringify(data);
   callback && callback();
 }
@@ -108,6 +110,46 @@ vows.describe('pending').addBatch({
       },
       
       'should not set data in store' : function(err, data) {
+        assert.isUndefined(data);
+      },
+    },
+  },
+  
+  'filter with error': {
+    topic: function() {
+      var self = this;
+      var store = new MockStore();
+      store.simulateError = true;
+      //store.set('plays.shakespeare.lit:iq_1', { action: 'start' });
+      var filter = pending({ store: store });
+      process.nextTick(function () {
+        self.callback(null, filter, store)
+      });
+    },
+    
+    'when processing an outgoing stanza with pending data': {
+      topic: function(pending, store) {
+        var self = this;
+        var res = new IQ('plays.shakespeare.lit', 'romeo@montague.net/orchard', 'get');
+        res.id = 'iq_1';
+        res = res.toXML();
+        res.pending = {};
+        res.pending.action = 'open';
+        
+        function next(e) {
+          store.get('plays.shakespeare.lit:iq_1', function(err, data) {
+            self.callback(err, e, data);
+          });
+        }
+        process.nextTick(function () {
+          pending(res, next)
+        });
+      },
+      
+      'should next with error' : function(err, e, data) {
+        assert.instanceOf(e, Error);
+      },
+      'should not set data in store' : function(err, e, data) {
         assert.isUndefined(data);
       },
     },
