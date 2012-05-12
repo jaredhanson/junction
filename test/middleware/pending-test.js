@@ -255,6 +255,9 @@ vows.describe('pending').addBatch({
       'should indicate an error' : function(err, stanza) {
         assert.instanceOf(err, Error);
       },
+      'should not set irt property' : function(err, stanza) {
+        assert.isUndefined(stanza.irt);
+      },
     },
   },
   
