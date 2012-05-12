@@ -62,5 +62,17 @@ vows.describe('Message').addBatch({
       assert.equal(iq.toXML().toString(), '<message to="juliet@example.com" from="romeo@example.net" type="groupchat"/>');
     },
   },
+  
+  'when given an ID': {
+    topic: function() {
+      var msg = new Message('juliet@example.com');
+      msg.id = 1;
+      return msg;
+    },
+    
+    'should build correct XML string': function(iq) {
+      assert.equal(iq.toXML().toString(), '<message id="1" to="juliet@example.com"/>');
+    },
+  },
 
 }).export(module);

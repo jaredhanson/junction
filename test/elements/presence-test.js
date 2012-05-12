@@ -81,5 +81,17 @@ vows.describe('Presence').addBatch({
       assert.equal(iq.toXML().toString(), '<presence to="juliet@example.com" from="romeo@example.net" type="unavailable"/>');
     },
   },
+  
+  'when given an ID': {
+    topic: function() {
+      var pres = new Presence('juliet@example.com');
+      pres.id = 1;
+      return pres;
+    },
+    
+    'should build correct XML string': function(iq) {
+      assert.equal(iq.toXML().toString(), '<presence id="1" to="juliet@example.com"/>');
+    },
+  },
 
 }).export(module);
