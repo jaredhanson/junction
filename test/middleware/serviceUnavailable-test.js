@@ -48,6 +48,31 @@ vows.describe('serviceUnavailable').addBatch({
         assert.equal(condition.getNS(), 'urn:ietf:params:xml:ns:xmpp-stanzas');
       },
     },
+    
+    'when handling an IQ result': {
+      topic: function(serviceUnavailable) {
+        var promise = new(events.EventEmitter);
+        function next(rq, rs, n) {
+          promise.emit('success', rs);
+        }
+        
+        var req = new IQ('romeo@example.net', 'juliet@example.com', 'result').toXML();
+        req.type = 'result';
+        var res = new IQ('juliet@example.com', 'romeo@example.net', 'result').toXML();
+        res.send = function() {
+          promise.emit('error', 'should not call send');
+        }
+        
+        process.nextTick(function () {
+          serviceUnavailable(req, res, next)
+        });
+        return promise;
+      },
+      
+      'should not call send' : function(err, res) {
+        if (err) { assert.fail(err); }
+      },
+    },
   },
 
 }).export(module);

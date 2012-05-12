@@ -44,6 +44,36 @@ vows.describe('ping').addBatch({
       },
     },
     
+    'when handling a ping result': {
+      topic: function(ping) {
+        var self = this;
+        var req = new IQ('capulet.lit', 'juliet@capulet.lit/balcony', 'result');
+        req.c(new xmpp.Element('ping', { xmlns: 'urn:xmpp:ping' }));
+        req = req.toXML();
+        req.type = req.attrs.type;
+        var res = new xmpp.Element('iq', { id: req.attrs.id,
+                                           to: req.attrs.from,
+                                           type: 'result' });
+        
+        res.send = function() {
+          self.callback(new Error('should not call send'));
+        }
+        function next(err) {
+          self.callback(null, res);
+        }
+        process.nextTick(function () {
+          ping(req, res, next)
+        });
+      },
+      
+      'should not call send' : function(err, stanza) {
+        assert.isNull(err);
+      },
+      'should call next' : function(err, stanza) {
+        assert.isNotNull(stanza);
+      },
+    },
+    
     'when handling a non-IQ-get ping request': {
       topic: function(ping) {
         var self = this;

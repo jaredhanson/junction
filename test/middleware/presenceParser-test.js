@@ -40,7 +40,7 @@ vows.describe('presenceParser').addBatch({
       },
     },
     
-    'when handling a presence stanza without a type attribute and show element': {
+    'when handling a presence stanza without a show element': {
       topic: function(presenceParser) {
         var self = this;
         var pres = new junction.XMLElement('presence', { from: 'romeo@example.net/orchard' });
