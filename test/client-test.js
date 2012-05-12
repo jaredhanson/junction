@@ -56,7 +56,7 @@ vows.describe('application').addBatch({
     },
   },
   
-  'initialization with muddleware': {
+  'initialization with middleware': {
     topic: function() {
       return junction(function(stanza, next) {},
                       function(stanza, next) {});
