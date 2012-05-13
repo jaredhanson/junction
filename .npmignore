@@ -1,8 +1,17 @@
-*.md
+# Mac OS X
 .DS_Store
+
+# Node.js
+.npmignore
+node_modules/
+npm-debug.log
+
+# Git
 .git*
+
+# Project
+README.md
 Makefile
 docs/
 examples/
-support/
 test/
