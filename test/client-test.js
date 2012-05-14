@@ -192,36 +192,28 @@ vows.describe('application').addBatch({
     },
   },
   
-  /*
   'handles message stanzas': {
     topic: function() {
       var self = this;
-      var promise = new(events.EventEmitter);
-      var c = new Client({ jid: 'romeo@example.net', disableStream: true });
-      c.use(function(req, res, next) {
-        promise.emit('error', 'should not dispatch message stanza with request-response semantics');
-      });
-      c.use(function(stanza, next) {
-        promise.emit('success', {stanza: stanza, next: next});
+      var connection = new events.EventEmitter();
+      var app = junction();
+      app.setup(connection);
+      app.use(function(stanza, next) {
+        self.callback(null, stanza, next);
       });
       process.nextTick(function () {
         var message = new Message('romeo@example.net', 'juliet@example.com', 'chat');
-        c.emit('stanza', message.toXML());
+        connection.emit('stanza', message.toXML());
       });
-      return promise;
     },
     
-    'should dispatch correct objects': function (err, obj) {
-      if (err) { assert.fail(err); }
-      
-      var stanza = obj.stanza;
-      var next = obj.next;
-      
+    'should dispatch correct objects': function (err, stanza, next) {
       assert.isNotNull(stanza);
-      assert.instanceOf(stanza.connection, Client);
-      assert.equal(stanza.from, 'juliet@example.com');
-      assert.equal(stanza.to, 'romeo@example.net');
-      assert.equal(stanza.type, 'chat');
+      assert.equal(stanza.attrs.from, 'juliet@example.com');
+      assert.equal(stanza.attrs.to, 'romeo@example.net');
+      assert.equal(stanza.attrs.type, 'chat');
+      assert.instanceOf(stanza.connection, events.EventEmitter);  // EventEmitter is mock connection
+      assert.isFunction(stanza.connection.send);
       
       assert.isFunction(next);
     },
@@ -230,37 +222,31 @@ vows.describe('application').addBatch({
   'handles presence stanzas': {
     topic: function() {
       var self = this;
-      var promise = new(events.EventEmitter);
-      var c = new Client({ jid: 'romeo@example.net', disableStream: true });
-      c.use(function(req, res, next) {
-        promise.emit('error', 'should not dispatch presence stanza with request-response semantics');
-      });
-      c.use(function(stanza, next) {
-        promise.emit('success', {stanza: stanza, next: next});
+      var connection = new events.EventEmitter();
+      var app = junction();
+      app.setup(connection);
+      app.use(function(stanza, next) {
+        self.callback(null, stanza, next);
       });
       process.nextTick(function () {
         var presence = new Presence('romeo@example.net', 'juliet@example.com', 'probe');
-        c.emit('stanza', presence.toXML());
+        connection.emit('stanza', presence.toXML());
       });
-      return promise;
     },
     
-    'should dispatch correct objects': function (err, obj) {
-      if (err) { assert.fail(err); }
-      
-      var stanza = obj.stanza;
-      var next = obj.next;
-      
+    'should dispatch correct objects': function (err, stanza, next) {
       assert.isNotNull(stanza);
-      assert.instanceOf(stanza.connection, Client);
-      assert.equal(stanza.from, 'juliet@example.com');
-      assert.equal(stanza.to, 'romeo@example.net');
-      assert.equal(stanza.type, 'probe');
+      assert.equal(stanza.attrs.from, 'juliet@example.com');
+      assert.equal(stanza.attrs.to, 'romeo@example.net');
+      assert.equal(stanza.attrs.type, 'probe');
+      assert.instanceOf(stanza.connection, events.EventEmitter);  // EventEmitter is mock connection
+      assert.isFunction(stanza.connection.send);
       
       assert.isFunction(next);
     },
   },
   
+  /*
   'use() several': {
     topic: function() {
       var self = this;      
