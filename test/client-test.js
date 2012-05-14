@@ -246,33 +246,34 @@ vows.describe('application').addBatch({
     },
   },
   
-  /*
-  'use() several': {
+  'app with multiple middleware': {
     topic: function() {
       var self = this;      
-      this.calls = 0;
-      var promise = new(events.EventEmitter);
-      var c = new Client({ jid: 'romeo@example.net', disableStream: true });
-      c.use(function(stanza, next) {
-        self.calls++;
+      var connection = new events.EventEmitter();
+      var app = junction();
+      app.setup(connection);
+      app.use(function(stanza, next) {
+        stanza.call1 = true;
         next();
       });
-      c.use(function(req, res, next) {
-        self.calls++;
+      app.use(function(req, res, next) {
+        req.call2 = true;
+        self.callback(null, req, res);
         promise.emit('success');
       });
       process.nextTick(function () {
         var iq = new IQ('romeo@example.net', 'juliet@example.com', 'get');
-        c.emit('stanza', iq.toXML());
+        connection.emit('stanza', iq.toXML());
       });
-      return promise;
     },
     
-    'should dispatch to several middleware': function (err, obj) {
-      if (err) { assert.fail(err); }
-      assert.equal(this.calls, 2);
+    'should dispatch to several middleware': function (err, req, res) {
+      assert.isTrue(req.call1);
+      assert.isTrue(req.call2);
     },
   },
+  
+  /*
   
   'error handling': {
     topic: function() {
