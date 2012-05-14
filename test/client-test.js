@@ -273,7 +273,7 @@ vows.describe('application').addBatch({
     },
   },
   
-  'middleware error handling': {
+  'app with error handling middleware': {
     topic: function() {
       var self = this;      
       var connection = new events.EventEmitter();
@@ -307,20 +307,22 @@ vows.describe('application').addBatch({
     },
   },
   
-  /*
   'send() with string argument': {
     topic: function() {
       var self = this;
-      var mockSocket = {
-        write: function(string) {
-          self.callback(null, string);
-        },
-        writable: true
-      };
+      // mock connection
+      var connection = new events.EventEmitter();
+      connection.send = function(string) {
+        self.callback(null, string);
+      }
       
-      var c = new Client({ jid: 'romeo@example.net', disableStream: true });
-      c.socket = mockSocket;
-      c.send('<iq/>');
+      var app = junction();
+      app.setup(connection);
+      app.filter(function(stanza, next) {
+        self.callback(new Error('should not be called'));
+      });
+      
+      connection.send('<iq/>');
     },
     
     'should send string': function (err, output) {
@@ -329,53 +331,62 @@ vows.describe('application').addBatch({
     },
   },
   
-  'send() with XML element argument': {
+  'send() with ltx.Element argument': {
     topic: function() {
       var self = this;
-      var buffer = '';
-      var mockSocket = {
-        write: function(string) {
-          buffer += string;
-        },
-        writable: true
-      };
+      // mock connection
+      var connection = new events.EventEmitter();
+      connection.send = function(string) {
+        self.callback(null, string);
+      }
       
-      var c = new Client({ jid: 'romeo@example.net', disableStream: true });
+      var app = junction();
+      app.setup(connection);
+      app.filter(function(stanza, next) {
+        if (!(stanza instanceof xmpp.Element)) {
+          self.callback(new Error('stanza should be an XML element'));
+        }
+        next();
+      });
+      
       var el = new xmpp.Element('iq', { id: '1',
                                         to: 'juliet@capulet.com/balcony',
                                         type: 'result' });
-      c.socket = mockSocket;
-      c.send(el);
-      return buffer;
+      connection.send(el);
     },
     
-    'should send XML element serialized as string': function (output) {
+    'should send element serialized as string': function (err, output) {
+      if (err) { assert.fail(err); }
       assert.equal(output, '<iq id="1" to="juliet@capulet.com/balcony" type="result"/>');
     },
   },
   
-  'send() with Junction Element argument': {
+  'send() with junction.Element argument': {
     topic: function() {
       var self = this;
-      var buffer = '';
-      var mockSocket = {
-        write: function(string) {
-          buffer += string;
-        },
-        writable: true
-      };
+      // mock connection
+      var connection = new events.EventEmitter();
+      connection.send = function(string) {
+        self.callback(null, string);
+      }
       
-      var c = new Client({ jid: 'romeo@example.net', disableStream: true });
+      var app = junction();
+      app.setup(connection);
+      app.filter(function(stanza, next) {
+        if (!(stanza instanceof xmpp.Element)) {
+          self.callback(new Error('stanza should be an XML element'));
+        }
+        next();
+      });
+      
       var message = new Message('juliet@example.com');
-      c.socket = mockSocket;
-      c.send(message);
-      return buffer;
+      connection.send(message);
     },
     
-    'should send Junction element serialized as string': function (output) {
+    'should send element serialized as string': function (err, output) {
+      if (err) { assert.fail(err); }
       assert.equal(output, '<message to="juliet@example.com"/>');
     },
   },
-  */
   
 }).export(module);
