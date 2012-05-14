@@ -67,157 +67,126 @@ vows.describe('application').addBatch({
     },
   },
   
-  /*
   'handles IQ "get" stanzas': {
     topic: function() {
       var self = this;
-      var promise = new(events.EventEmitter);
-      var c = new Client({ jid: 'romeo@example.net', disableStream: true });
-      c.use(function(req, res, next) {
-        promise.emit('success', {req: req, res: res, next: next});
+      var connection = new events.EventEmitter();
+      var app = junction();
+      app.setup(connection);
+      app.use(function(req, res, next) {
+        self.callback(null, req, res);
       });
       process.nextTick(function () {
         var iq = new IQ('romeo@example.net', 'juliet@example.com', 'get');
         iq.id = '1';
-        c.emit('stanza', iq.toXML());
+        connection.emit('stanza', iq.toXML());
       });
-      return promise;
     },
     
-    'should dispatch correct objects': function (err, obj) {
-      var req = obj.req;
-      var res = obj.res;
-      var next = obj.next;
-      
+    'should dispatch correct objects': function (err, req, res) {
       assert.isNotNull(req);
-      assert.instanceOf(req.connection, Client);
-      assert.instanceOf(req.from, xmpp.JID);
-      assert.instanceOf(req.to, xmpp.JID);
-      assert.equal(req.id, 1);
-      assert.equal(req.from, 'juliet@example.com');
-      assert.equal(req.to, 'romeo@example.net');
-      assert.equal(req.type, 'get');
+      assert.equal(req.attrs.id, 1);
+      assert.equal(req.attrs.from, 'juliet@example.com');
+      assert.equal(req.attrs.to, 'romeo@example.net');
+      assert.equal(req.attrs.type, 'get');
+      assert.instanceOf(req.connection, events.EventEmitter);  // EventEmitter is mock connection
+      assert.isFunction(req.connection.send);
       
       assert.isNotNull(res);
       assert.equal(res.attrs.id, 1);
       assert.equal(res.attrs.to, 'juliet@example.com');
+      assert.isUndefined(res.attrs.from);
       assert.equal(res.attrs.type, 'result');
       assert.isFunction(res.send);
-      
-      assert.isFunction(next);
     },
   },
   
   'handles IQ "set" stanzas': {
     topic: function() {
       var self = this;
-      var promise = new(events.EventEmitter);
-      var c = new Client({ jid: 'romeo@example.net', disableStream: true });
-      c.use(function(req, res, next) {
-        promise.emit('success', {req: req, res: res, next: next});
+      var connection = new events.EventEmitter();
+      var app = junction();
+      app.setup(connection);
+      app.use(function(req, res, next) {
+        self.callback(null, req, res);
       });
       process.nextTick(function () {
         var iq = new IQ('romeo@example.net', 'juliet@example.com', 'set');
         iq.id = '1';
-        c.emit('stanza', iq.toXML());
+        connection.emit('stanza', iq.toXML());
       });
-      return promise;
     },
     
-    'should dispatch correct objects': function (err, obj) {
-      var req = obj.req;
-      var res = obj.res;
-      var next = obj.next;
-      
+    'should dispatch correct objects': function (err, req, res) {
       assert.isNotNull(req);
-      assert.instanceOf(req.connection, Client);
-      assert.equal(req.id, 1);
-      assert.equal(req.from, 'juliet@example.com');
-      assert.equal(req.to, 'romeo@example.net');
-      assert.equal(req.type, 'set');
+      assert.equal(req.attrs.id, 1);
+      assert.equal(req.attrs.from, 'juliet@example.com');
+      assert.equal(req.attrs.to, 'romeo@example.net');
+      assert.equal(req.attrs.type, 'set');
       
       assert.isNotNull(res);
       assert.equal(res.attrs.id, 1);
       assert.equal(res.attrs.to, 'juliet@example.com');
       assert.equal(res.attrs.type, 'result');
       assert.isFunction(res.send);
-      
-      assert.isFunction(next);
     },
   },
   
   'handles IQ "result" stanzas': {
     topic: function() {
       var self = this;
-      var promise = new(events.EventEmitter);
-      var c = new Client({ jid: 'romeo@example.net', disableStream: true });
-      c.use(function(req, res, next) {
-        promise.emit('error', 'should not dispatch IQ result stanza with request-response semantics');
-      });
-      c.use(function(stanza, next) {
-        promise.emit('success', {stanza: stanza, next: next});
+      var connection = new events.EventEmitter();
+      var app = junction();
+      app.setup(connection);
+      app.use(function(stanza, res, next) {
+        self.callback(null, stanza, res);
       });
       process.nextTick(function () {
         var iq = new IQ('romeo@example.net', 'juliet@example.com', 'result');
         iq.id = '1';
-        c.emit('stanza', iq.toXML());
+        connection.emit('stanza', iq.toXML());
       });
-      return promise;
     },
     
-    'should dispatch correct objects': function (err, obj) {
-      if (err) { assert.fail(err); }
-      
-      var stanza = obj.stanza;
-      var next = obj.next;
-      
+    'should dispatch correct objects': function (err, stanza, res) {
       assert.isNotNull(stanza);
-      assert.instanceOf(stanza.connection, Client);
-      assert.equal(stanza.id, 1);
-      assert.equal(stanza.from, 'juliet@example.com');
-      assert.equal(stanza.to, 'romeo@example.net');
-      assert.equal(stanza.type, 'result');
+      assert.equal(stanza.attrs.id, 1);
+      assert.equal(stanza.attrs.from, 'juliet@example.com');
+      assert.equal(stanza.attrs.to, 'romeo@example.net');
+      assert.equal(stanza.attrs.type, 'result');
       
-      assert.isFunction(next);
+      assert.isNull(res);
     },
   },
   
   'handles IQ "error" stanzas': {
     topic: function() {
       var self = this;
-      var promise = new(events.EventEmitter);
-      var c = new Client({ jid: 'romeo@example.net', disableStream: true });
-      c.use(function(req, res, next) {
-        promise.emit('error', 'should not dispatch IQ error stanza with request-response semantics');
-      });
-      c.use(function(stanza, next) {
-        promise.emit('success', {stanza: stanza, next: next});
+      var connection = new events.EventEmitter();
+      var app = junction();
+      app.setup(connection);
+      app.use(function(stanza, res, next) {
+        self.callback(null, stanza, res);
       });
       process.nextTick(function () {
         var iq = new IQ('romeo@example.net', 'juliet@example.com', 'error');
         iq.id = '1';
-        c.emit('stanza', iq.toXML());
+        connection.emit('stanza', iq.toXML());
       });
-      return promise;
     },
     
-    'should dispatch correct objects': function (err, obj) {
-      if (err) { assert.fail(err); }
-      
-      var stanza = obj.stanza;
-      var next = obj.next;
-      
+    'should dispatch correct objects': function (err, stanza, res) {
       assert.isNotNull(stanza);
-      assert.instanceOf(stanza.connection, Client);
-      assert.equal(stanza.id, 1);
-      assert.equal(stanza.from, 'juliet@example.com');
-      assert.equal(stanza.to, 'romeo@example.net');
-      assert.equal(stanza.type, 'error');
+      assert.equal(stanza.attrs.id, 1);
+      assert.equal(stanza.attrs.from, 'juliet@example.com');
+      assert.equal(stanza.attrs.to, 'romeo@example.net');
+      assert.equal(stanza.attrs.type, 'error');
       
-      assert.isFunction(next);
+      assert.isNull(res);
     },
   },
   
+  /*
   'handles message stanzas': {
     topic: function() {
       var self = this;
