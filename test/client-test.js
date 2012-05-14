@@ -74,7 +74,7 @@ vows.describe('application').addBatch({
       var app = junction();
       app.setup(connection);
       app.use(function(req, res, next) {
-        self.callback(null, req, res);
+        self.callback(null, req, res, next);
       });
       process.nextTick(function () {
         var iq = new IQ('romeo@example.net', 'juliet@example.com', 'get');
@@ -83,7 +83,7 @@ vows.describe('application').addBatch({
       });
     },
     
-    'should dispatch correct objects': function (err, req, res) {
+    'should dispatch correct objects': function (err, req, res, next) {
       assert.isNotNull(req);
       assert.equal(req.attrs.id, 1);
       assert.equal(req.attrs.from, 'juliet@example.com');
@@ -98,6 +98,8 @@ vows.describe('application').addBatch({
       assert.isUndefined(res.attrs.from);
       assert.equal(res.attrs.type, 'result');
       assert.isFunction(res.send);
+      
+      assert.isFunction(next);
     },
   },
   
@@ -108,7 +110,7 @@ vows.describe('application').addBatch({
       var app = junction();
       app.setup(connection);
       app.use(function(req, res, next) {
-        self.callback(null, req, res);
+        self.callback(null, req, res, next);
       });
       process.nextTick(function () {
         var iq = new IQ('romeo@example.net', 'juliet@example.com', 'set');
@@ -117,7 +119,7 @@ vows.describe('application').addBatch({
       });
     },
     
-    'should dispatch correct objects': function (err, req, res) {
+    'should dispatch correct objects': function (err, req, res, next) {
       assert.isNotNull(req);
       assert.equal(req.attrs.id, 1);
       assert.equal(req.attrs.from, 'juliet@example.com');
@@ -129,6 +131,8 @@ vows.describe('application').addBatch({
       assert.equal(res.attrs.to, 'juliet@example.com');
       assert.equal(res.attrs.type, 'result');
       assert.isFunction(res.send);
+      
+      assert.isFunction(next);
     },
   },
   
@@ -139,7 +143,7 @@ vows.describe('application').addBatch({
       var app = junction();
       app.setup(connection);
       app.use(function(stanza, res, next) {
-        self.callback(null, stanza, res);
+        self.callback(null, stanza, res, next);
       });
       process.nextTick(function () {
         var iq = new IQ('romeo@example.net', 'juliet@example.com', 'result');
@@ -148,7 +152,7 @@ vows.describe('application').addBatch({
       });
     },
     
-    'should dispatch correct objects': function (err, stanza, res) {
+    'should dispatch correct objects': function (err, stanza, res, next) {
       assert.isNotNull(stanza);
       assert.equal(stanza.attrs.id, 1);
       assert.equal(stanza.attrs.from, 'juliet@example.com');
@@ -156,6 +160,7 @@ vows.describe('application').addBatch({
       assert.equal(stanza.attrs.type, 'result');
       
       assert.isNull(res);
+      assert.isFunction(next);
     },
   },
   
@@ -166,7 +171,7 @@ vows.describe('application').addBatch({
       var app = junction();
       app.setup(connection);
       app.use(function(stanza, res, next) {
-        self.callback(null, stanza, res);
+        self.callback(null, stanza, res, next);
       });
       process.nextTick(function () {
         var iq = new IQ('romeo@example.net', 'juliet@example.com', 'error');
@@ -175,7 +180,7 @@ vows.describe('application').addBatch({
       });
     },
     
-    'should dispatch correct objects': function (err, stanza, res) {
+    'should dispatch correct objects': function (err, stanza, res, next) {
       assert.isNotNull(stanza);
       assert.equal(stanza.attrs.id, 1);
       assert.equal(stanza.attrs.from, 'juliet@example.com');
@@ -183,6 +188,7 @@ vows.describe('application').addBatch({
       assert.equal(stanza.attrs.type, 'error');
       
       assert.isNull(res);
+      assert.isFunction(next);
     },
   },
   
