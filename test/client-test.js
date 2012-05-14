@@ -259,7 +259,6 @@ vows.describe('application').addBatch({
       app.use(function(req, res, next) {
         req.call2 = true;
         self.callback(null, req, res);
-        promise.emit('success');
       });
       process.nextTick(function () {
         var iq = new IQ('romeo@example.net', 'juliet@example.com', 'get');
@@ -270,6 +269,62 @@ vows.describe('application').addBatch({
     'should dispatch to several middleware': function (err, req, res) {
       assert.isTrue(req.call1);
       assert.isTrue(req.call2);
+    },
+  },
+  
+  'app with mounted sub-app': {
+    topic: function() {
+      var self = this;
+      var order = 0;
+      var connection = new events.EventEmitter();
+      var app = junction();
+      
+      app.use(function(stanza, next) {
+        stanza.parentCall1 = ++order;
+        stanza.parentCall1Connection = stanza.connection;
+        next();
+      });
+      
+      var subApp1 = junction();
+      subApp1.use(function(stanza, next) {
+        stanza.sub1Call1 = ++order;
+        stanza.sub1Call1Connection = stanza.connection;
+        next();
+      });
+      subApp1.use(function(stanza, next) {
+        stanza.sub1Call2 = ++order;
+        stanza.sub1Call2Connection = stanza.connection;
+        next();
+      });
+      app.use(subApp1)
+      
+      app.use(function(stanza, next) {
+        stanza.parentCall2 = ++order;
+        stanza.parentCall2Connection = stanza.connection;
+        self.callback(null, stanza);
+      });
+      
+      app.setup(connection);
+      process.nextTick(function () {
+        var iq = new IQ('romeo@example.net', 'juliet@example.com', 'get');
+        connection.emit('stanza', iq.toXML());
+      });
+    },
+    
+    'should dispatch to several middleware': function (err, stanza) {
+      assert.strictEqual(stanza.parentCall1, 1);
+      assert.strictEqual(stanza.sub1Call1, 2);
+      assert.strictEqual(stanza.sub1Call2, 3);
+      assert.strictEqual(stanza.parentCall2, 4);
+    },
+    'should preserve connection through sub-apps': function (err, stanza, next) {
+      assert.instanceOf(stanza.connection, events.EventEmitter);  // EventEmitter is mock connection
+      assert.isFunction(stanza.connection.send);
+      
+      assert.equal(stanza.connection, stanza.parentCall1Connection);
+      assert.equal(stanza.parentCall1Connection, stanza.sub1Call1Connection);
+      assert.equal(stanza.sub1Call1Connection, stanza.sub1Call2Connection);
+      assert.equal(stanza.sub1Call2Connection, stanza.parentCall2Connection);
     },
   },
   
