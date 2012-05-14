@@ -273,43 +273,41 @@ vows.describe('application').addBatch({
     },
   },
   
-  /*
-  
-  'error handling': {
+  'middleware error handling': {
     topic: function() {
       var self = this;      
-      this.calls = 0;
-      var promise = new(events.EventEmitter);
-      var c = new Client({ jid: 'romeo@example.net', disableStream: true });
-      c.use(function(stanza, next) {
-        next(new Error('lame'));
+      var connection = new events.EventEmitter();
+      var app = junction();
+      app.setup(connection);
+      app.use(function(stanza, next) {
+        next(new Error('something went wrong'));
       });
-      c.use(function(req, res, next) {
-        // should not be called
-        self.calls++;
+      app.use(function(req, res, next) {
+        req.noCall = true;
         next();
       });
-      c.use(function(err, req, res, next) {
-        self.calls++;
+      app.use(function(err, req, res, next) {
+        req.errCall1 = true;
         next(err);
       });
-      c.use(function(err, req, res, next) {
-        self.calls++;
-        promise.emit('success');
+      app.use(function(err, req, res, next) {
+        req.errCall2 = true;
+        self.callback(null, req, res);
       });
       process.nextTick(function () {
         var iq = new IQ('romeo@example.net', 'juliet@example.com', 'get');
-        c.emit('stanza', iq.toXML());
+        connection.emit('stanza', iq.toXML());
       });
-      return promise;
     },
     
-    'should dispatch to error handling middleware': function (err, obj) {
-      if (err) { assert.fail(err); }
-      assert.equal(this.calls, 2);
+    'should dispatch to error handling middleware': function (err, req, res) {
+      assert.isUndefined(req.noCall);
+      assert.isTrue(req.errCall1);
+      assert.isTrue(req.errCall2);
     },
   },
   
+  /*
   'send() with string argument': {
     topic: function() {
       var self = this;
