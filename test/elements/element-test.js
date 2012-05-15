@@ -36,6 +36,7 @@ vows.describe('Element').addBatch({
       
       'should be an instance of XMLElement': function(xml) {
         assert.instanceOf(xml, junction.XMLElement);
+        assert.isFalse(xml instanceof xmpp.Stanza);
       },
       'should build correct string': function(xml) {
         assert.equal(xml.toString(), '<bar/>');

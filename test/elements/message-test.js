@@ -1,5 +1,6 @@
 var vows = require('vows');
 var assert = require('assert');
+var xmpp = require('node-xmpp');
 var junction = require('junction');
 var Message = require('junction/elements/message');
 
@@ -22,6 +23,11 @@ vows.describe('Message').addBatch({
     },
     'should build correct XML string': function(iq) {
       assert.equal(iq.toXML().toString(), '<message to="juliet@example.com"/>');
+    },
+    'should build Stanza instance': function(iq) {
+      var xml = iq.toXML();
+      assert.instanceOf(xml, xmpp.Element);
+      assert.instanceOf(xml, xmpp.Stanza);
     },
   },
   
