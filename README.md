@@ -36,6 +36,12 @@ support development of applications making use of the XEP.
   </tbody>
 </table>
 
+## Tests
+
+    $ npm install --dev
+    $ make test
+
+[![Build Status](https://secure.travis-ci.org/jaredhanson/junction.png)](http://travis-ci.org/jaredhanson/junction)
 
 ## Credits
 
