@@ -40,7 +40,7 @@ Anytime a message is received, we send a greeting and echo the message body.
       });
     }));
     
-Junction provides [built-in middleware](https://github.com/jaredhanson/junction/tree/master/lib/junction/middleware)
+Junction provides [bundled middleware](https://github.com/jaredhanson/junction/tree/master/lib/junction/middleware)
 to handle core XMPP functionality.  Additional middleware and higher-level
 frameworks are available as separate modules.
 
@@ -93,6 +93,23 @@ support development of applications making use of the XEP.
   <tbody>
     <tr><td><a href="https://github.com/jaredhanson/junction-disco">Disco</a></td><td>Service Discovery (<a href="http://xmpp.org/extensions/xep-0030.html">XEP-0030</a>) framework.</td></tr>
     <tr><td><a href="https://github.com/jaredhanson/junction-pubsub">PubSub</a></td><td>Publish-Subscribe (<a href="http://xmpp.org/extensions/xep-0060.html">XEP-0060</a>) framework.</td></tr>
+  </tbody>
+</table>
+
+## Middleware
+
+Additional middleware is available to parse non-core extension elements commonly
+found in stanzas.  Some middleware implement complete support for simple XEPs
+that don't justify the need for a full-fledged framework.
+
+<table>
+  <thead>
+    <tr><th>Middleware</th><th>Description</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><a href="https://github.com/jaredhanson/junction-delay">junction-delay</a></td><td>Delayed Delivery (<a href="http://xmpp.org/extensions/xep-0203.html">XEP-0203</a>) middleware.</td></tr>
+    <tr><td><a href="https://github.com/jaredhanson/junction-legacy-delay">junction-legacy-delay</a></td><td>Legacy Delayed Delivery (<a href="http://xmpp.org/extensions/xep-0091.html">XEP-0091</a>) middleware.</td></tr>
+    <tr><td><a href="https://github.com/jaredhanson/junction-nickname">junction-nickname</a></td><td>User Nickname (<a href="http://xmpp.org/extensions/xep-0172.html">XEP-0172</a>) middleware.</td></tr>
   </tbody>
 </table>
 
