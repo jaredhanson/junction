@@ -85,6 +85,10 @@ vows.describe('application').addBatch({
     
     'should dispatch correct objects': function (err, req, res, next) {
       assert.isNotNull(req);
+      assert.equal(req.id, 1);
+      assert.equal(req.from, 'juliet@example.com');
+      assert.equal(req.to, 'romeo@example.net');
+      assert.equal(req.type, 'get');
       assert.equal(req.attrs.id, 1);
       assert.equal(req.attrs.from, 'juliet@example.com');
       assert.equal(req.attrs.to, 'romeo@example.net');
@@ -209,6 +213,9 @@ vows.describe('application').addBatch({
     
     'should dispatch correct objects': function (err, stanza, next) {
       assert.isNotNull(stanza);
+      assert.equal(stanza.from, 'juliet@example.com');
+      assert.equal(stanza.to, 'romeo@example.net');
+      assert.equal(stanza.type, 'chat');
       assert.equal(stanza.attrs.from, 'juliet@example.com');
       assert.equal(stanza.attrs.to, 'romeo@example.net');
       assert.equal(stanza.attrs.type, 'chat');
@@ -236,6 +243,9 @@ vows.describe('application').addBatch({
     
     'should dispatch correct objects': function (err, stanza, next) {
       assert.isNotNull(stanza);
+      assert.equal(stanza.from, 'juliet@example.com');
+      assert.equal(stanza.to, 'romeo@example.net');
+      assert.equal(stanza.type, 'probe');
       assert.equal(stanza.attrs.from, 'juliet@example.com');
       assert.equal(stanza.attrs.to, 'romeo@example.net');
       assert.equal(stanza.attrs.type, 'probe');
@@ -515,8 +525,8 @@ vows.describe('application').addBatch({
       var app = junction();
       app.setup(connection);
       app.filter(function(stanza, next) {
-        if (!(stanza instanceof xmpp.Element)) {
-          self.callback(new Error('stanza should be an XML element'));
+        if (!(stanza instanceof xmpp.Stanza)) {
+          self.callback(new Error('stanza should be an XMPP stanza'));
         }
         next();
       });
