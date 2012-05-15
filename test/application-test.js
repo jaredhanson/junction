@@ -362,6 +362,43 @@ vows.describe('application').addBatch({
     },
   },
   
+  'app with multiple filters': {
+    topic: function() {
+      var self = this;      
+      var connection = new events.EventEmitter();
+      // mock connection
+      var connection = new events.EventEmitter();
+      connection.send = function(stanza) {
+        self.callback(null, stanza);
+      }
+      
+      var app = junction();
+      app.setup(connection);
+      app.filter(function(stanza, next) {
+        stanza.call1 = true;
+        next();
+      });
+      app.filter(function(stanza, next) {
+        stanza.call2 = true;
+        next();
+      });
+      process.nextTick(function () {
+        var el = new xmpp.Element('iq', { id: '1',
+                                          to: 'juliet@capulet.com/balcony',
+                                          type: 'result' });
+        connection.send(el);
+      });
+    },
+    
+    'should dispatch xmpp element': function (err, stanza) {
+      assert.instanceOf(stanza, xmpp.Element);
+    },
+    'should dispatch to several filters': function (err, stanza) {
+      assert.isTrue(stanza.call1);
+      assert.isTrue(stanza.call2);
+    },
+  },
+  
   'send() with string argument': {
     topic: function() {
       var self = this;
