@@ -23,7 +23,7 @@ message and presence parsing middleware to parse common stanzas.
 
     var app = junction()
       .use(junction.messageParser())
-      .use(junction.presenceParser())
+      .use(junction.presenceParser());
 
 #### Handle Stanzas
 
@@ -48,7 +48,7 @@ frameworks are available as separate modules.
 
 Conclude the app by using the typical trailing middleware:
 
-    app.use(junction.serviceUnavailable());
+    app.use(junction.serviceUnavailable())
        .use(junction.errorHandler());
 
 `serviceUnavailable` middleware responds with a `service-unavailable` stanza
