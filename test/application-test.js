@@ -364,8 +364,7 @@ vows.describe('application').addBatch({
   
   'app with multiple filters': {
     topic: function() {
-      var self = this;      
-      var connection = new events.EventEmitter();
+      var self = this;
       // mock connection
       var connection = new events.EventEmitter();
       connection.send = function(stanza) {
@@ -396,6 +395,57 @@ vows.describe('application').addBatch({
     'should dispatch to several filters': function (err, stanza) {
       assert.isTrue(stanza.call1);
       assert.isTrue(stanza.call2);
+    },
+  },
+  
+  'app with multiple filters and sub-app with filters': {
+    topic: function() {
+      var self = this;
+      var order = 0;
+      // mock connection
+      var connection = new events.EventEmitter();
+      connection.send = function(stanza) {
+        self.callback(null, stanza);
+      }
+      
+      var app = junction();
+      app.setup(connection);
+      app.filter(function(stanza, next) {
+        stanza.parentCall1 = ++order;
+        next();
+      });
+      
+      var subApp1 = junction();
+      subApp1.filter(function(stanza, next) {
+        stanza.sub1Call1 = ++order;
+        next();
+      });
+      subApp1.filter(function(stanza, next) {
+        stanza.sub1Call2 = ++order;
+        next();
+      });
+      app.use(subApp1)
+      
+      app.filter(function(stanza, next) {
+        stanza.parentCall2 = ++order;
+        next();
+      });
+      process.nextTick(function () {
+        var el = new xmpp.Element('iq', { id: '1',
+                                          to: 'juliet@capulet.com/balcony',
+                                          type: 'result' });
+        connection.send(el);
+      });
+    },
+    
+    'should dispatch xmpp element': function (err, stanza) {
+      assert.instanceOf(stanza, xmpp.Element);
+    },
+    'should dispatch to several filters': function (err, stanza) {
+      assert.strictEqual(stanza.parentCall1, 1);
+      assert.strictEqual(stanza.sub1Call1, 2);
+      assert.strictEqual(stanza.sub1Call2, 3);
+      assert.strictEqual(stanza.parentCall2, 4);
     },
   },
   
