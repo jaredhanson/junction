@@ -1,0 +1,8 @@
+{
+  "name": "junction-examples-hello",
+  "version": "0.0.0",
+  "dependencies": {
+    "junction": ">= 0.0.0",
+    "optimist": ">= 0.0.0"
+  }
+}

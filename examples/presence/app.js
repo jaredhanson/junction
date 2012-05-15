@@ -6,7 +6,7 @@ console.log('  (using Junction + ' + junction.version + ')');
 
 var options = {
   type: 'client',
-  jid: argv.I,
+  jid: argv.i,
   password: argv.P
 };
 
