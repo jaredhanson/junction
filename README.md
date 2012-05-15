@@ -31,8 +31,8 @@ support development of applications making use of the XEP.
     <tr><th>Framework</th><th>Description</th></tr>
   </thead>
   <tbody>
-    <tr><td><a href="https://github.com/jaredhanson/junction-disco">Disco</a></td><td>Service Discovery ([XEP-0030](http://xmpp.org/extensions/xep-0030.html)) framework.</td></tr>
-    <tr><td><a href="https://github.com/jaredhanson/junction-pubsub">PubSub</a></td><td>Publish-Subscribe ([XEP-0060](http://xmpp.org/extensions/xep-0060.html)) framework.</td></tr>
+    <tr><td><a href="https://github.com/jaredhanson/junction-disco">Disco</a></td><td>Service Discovery (<a href="http://xmpp.org/extensions/xep-0030.html">XEP-0030</a>) framework.</td></tr>
+    <tr><td><a href="https://github.com/jaredhanson/junction-pubsub">PubSub</a></td><td>Publish-Subscribe (<a href="http://xmpp.org/extensions/xep-0060.html">XEP-0060</a>) framework.</td></tr>
   </tbody>
 </table>
 
