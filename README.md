@@ -14,6 +14,66 @@ while harnessing the powerful patterns familiar to Node.js developers.
 
     $ npm install junction
 
+## Usage
+
+#### Create an Application
+
+To create a new application, simply invoke `junction()`.  Use the built in
+message and presence parsing middleware to parse common stanzas.
+
+    var app = junction()
+      .use(junction.messageParser())
+      .use(junction.presenceParser())
+
+#### Handle Stanzas
+
+Use additional middleware to define your application's behavior.  In this
+example, the built in `message` middleware is used to handle chat messages.
+Anytime a message is received, we send a greeting and echo the message body.
+
+    app.use(junction.message(function(handler) {
+      handler.on('chat', function(stanza) {
+        var msg = new Message(stanza.from);
+        msg.c('body', {}).t('Hello ' + stanza.from + '!\n\n' +
+                            'You said: ' + stanza.body);
+        stanza.connection.send(msg);
+      });
+    }));
+    
+Junction provides [built-in middleware](https://github.com/jaredhanson/junction/tree/master/lib/junction/middleware)
+to handle core XMPP functionality.  Additional middleware and higher-level
+frameworks are available as separate modules.
+
+#### Trailing Middleware
+
+Conclude the app by using the typical trailing middleware:
+
+    app.use(junction.serviceUnavailable());
+       .use(junction.errorHandler());
+
+`serviceUnavailable` middleware responds with a `service-unavailable` stanza
+error when other XMPP entities send the application a request that it doesn't
+support.  This is recommended for well-behaved XMPP applications.
+
+`errorHandler` middleware will respond with stanza errors when the application
+encounters an error condition.
+
+These middleware should be used _last_ in the stack, ensuring that other
+middleware take priority.
+
+#### Connect to XMPP Network
+
+With the app configured, connect to the XMPP network.
+
+    app.connect({ jid: 'user@jabber.org', password: 's3cr3t' }).on('online', function() {
+      console.log('connected as: ' + this.jid);
+      this.send(new Presence());
+    });
+
+Junction uses [node-xmpp](https://github.com/astro/node-xmpp) for the underlying
+connection, allowing apps to connect as clients, components, or any other
+supported connection type.
+
 ## Frameworks
 
 At its core, XMPP is a protocol that allows structured data to be exchanged in
