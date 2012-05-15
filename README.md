@@ -107,9 +107,15 @@ that don't justify the need for a full-fledged framework.
     <tr><th>Middleware</th><th>Description</th></tr>
   </thead>
   <tbody>
+    <tr><td><a href="https://github.com/jaredhanson/junction-attention">junction-attention</a></td><td>Attention (<a href="http://xmpp.org/extensions/xep-0224.html">XEP-0224</a>) middleware.</td></tr>
     <tr><td><a href="https://github.com/jaredhanson/junction-delay">junction-delay</a></td><td>Delayed Delivery (<a href="http://xmpp.org/extensions/xep-0203.html">XEP-0203</a>) middleware.</td></tr>
+    <tr><td><a href="https://github.com/jaredhanson/junction-lastactivity">junction-lastactivity</a></td><td>Last Activity (<a href="http://xmpp.org/extensions/xep-0012.html">XEP-0012</a>) middleware.</td></tr>
     <tr><td><a href="https://github.com/jaredhanson/junction-legacy-delay">junction-legacy-delay</a></td><td>Legacy Delayed Delivery (<a href="http://xmpp.org/extensions/xep-0091.html">XEP-0091</a>) middleware.</td></tr>
+    <tr><td><a href="https://github.com/jaredhanson/junction-legacy-time">junction-legacy-time</a></td><td>Legacy Entity Time (<a href="http://xmpp.org/extensions/xep-0090.html">XEP-0090</a>) middleware.</td></tr>
     <tr><td><a href="https://github.com/jaredhanson/junction-nickname">junction-nickname</a></td><td>User Nickname (<a href="http://xmpp.org/extensions/xep-0172.html">XEP-0172</a>) middleware.</td></tr>
+    <tr><td><a href="https://github.com/jaredhanson/junction-ping">junction-ping</a></td><td>XMPP Ping (<a href="http://xmpp.org/extensions/xep-0199.html">XEP-0199</a>) middleware.</td></tr>
+    <tr><td><a href="https://github.com/jaredhanson/junction-softwareversion">junction-softwareversion</a></td><td>Software Version (<a href="http://xmpp.org/extensions/xep-0092.html">XEP-0092</a>) middleware.</td></tr>
+    <tr><td><a href="https://github.com/jaredhanson/junction-time">junction-time</a></td><td>Entity Time (<a href="http://xmpp.org/extensions/xep-0202.html">XEP-0202</a>) middleware.</td></tr>
   </tbody>
 </table>
 
