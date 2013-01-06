@@ -1,3 +1,9 @@
+README.md
+Makefile
+doc/
+examples/
+test/
+
 # Mac OS X
 .DS_Store
 
@@ -8,10 +14,3 @@ npm-debug.log
 
 # Git
 .git*
-
-# Project
-README.md
-Makefile
-docs/
-examples/
-test/
