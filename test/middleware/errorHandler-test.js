@@ -2,7 +2,6 @@ var vows = require('vows');
 var assert = require('assert');
 var events = require('events');
 var util = require('util');
-var IQ = require('junction/elements/iq');
 var StanzaError = require('junction/stanzaerror');
 var errorHandler = require('junction/middleware/errorHandler');
 

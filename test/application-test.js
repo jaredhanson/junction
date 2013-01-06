@@ -4,9 +4,6 @@ var events = require('events');
 var xmpp = require('node-xmpp');
 var util = require('util');
 var junction = require('junction');
-var IQ = require('junction/elements/iq');
-var Message = require('junction/elements/message');
-var Presence = require('junction/elements/presence');
 
 
 vows.describe('application').addBatch({

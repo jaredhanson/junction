@@ -2,8 +2,6 @@ var vows = require('vows');
 var assert = require('assert');
 var util = require('util');
 var junction = require('junction');
-var IQ = require('junction/elements/iq');
-var Message = require('junction/elements/message');
 var message = require('junction/middleware/message');
 
 

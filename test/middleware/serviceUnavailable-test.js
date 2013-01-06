@@ -2,7 +2,6 @@ var vows = require('vows');
 var assert = require('assert');
 var events = require('events');
 var util = require('util');
-var IQ = require('junction/elements/iq');
 var serviceUnavailable = require('junction/middleware/serviceUnavailable');
 
 

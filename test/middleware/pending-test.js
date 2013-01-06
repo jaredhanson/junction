@@ -2,7 +2,6 @@ var vows = require('vows');
 var assert = require('assert');
 var util = require('util');
 var JID = require('node-xmpp').JID;
-var IQ = require('junction/elements/iq');
 var pending = require('junction/middleware/pending');
 
 
