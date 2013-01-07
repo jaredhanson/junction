@@ -145,7 +145,7 @@ vows.describe('application').addBatch({
         self.callback(null, stanza, res, next);
       });
       process.nextTick(function () {
-        var iq = new xmpp.Stanza('iq', { type: 'result', to: 'romeo@example.net', from: 'juliet@example.com', id: 1 });
+        var iq = new xmpp.Stanza('iq', { type: 'result', to: 'romeo@example.net', from: 'juliet@example.com', id: '1' });
         connection.emit('stanza', iq);
       });
     },
@@ -524,7 +524,7 @@ vows.describe('application').addBatch({
         next();
       });
       
-      var message = new Message('juliet@example.com');
+      var message = new xmpp.Stanza('message', { to: 'juliet@example.com' })
       connection.send(message);
     },
     

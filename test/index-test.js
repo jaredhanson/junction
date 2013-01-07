@@ -22,12 +22,6 @@ vows.describe('junction').addBatch({
     assert.isFunction(junction.XMPPStanza);
   },
   
-  'should export elements': function() {
-    assert.isFunction(junction.elements.Element);
-    assert.isFunction(junction.elements.IQ);
-    assert.isFunction(junction.elements.Message);
-  },
-  
   'should export middleware': function() {
     assert.isObject(junction.middleware);
   },
