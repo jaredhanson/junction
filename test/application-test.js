@@ -74,9 +74,8 @@ vows.describe('application').addBatch({
         self.callback(null, req, res, next);
       });
       process.nextTick(function () {
-        var iq = new IQ('romeo@example.net', 'juliet@example.com', 'get');
-        iq.id = '1';
-        connection.emit('stanza', iq.toXML());
+        var iq = new xmpp.Stanza('iq', { type: 'get', to: 'romeo@example.net', from: 'juliet@example.com', id: '1' });
+        connection.emit('stanza', iq);
       });
     },
     
@@ -114,9 +113,8 @@ vows.describe('application').addBatch({
         self.callback(null, req, res, next);
       });
       process.nextTick(function () {
-        var iq = new IQ('romeo@example.net', 'juliet@example.com', 'set');
-        iq.id = '1';
-        connection.emit('stanza', iq.toXML());
+        var iq = new xmpp.Stanza('iq', { type: 'set', to: 'romeo@example.net', from: 'juliet@example.com', id: '1' });
+        connection.emit('stanza', iq);
       });
     },
     
@@ -147,9 +145,8 @@ vows.describe('application').addBatch({
         self.callback(null, stanza, res, next);
       });
       process.nextTick(function () {
-        var iq = new IQ('romeo@example.net', 'juliet@example.com', 'result');
-        iq.id = '1';
-        connection.emit('stanza', iq.toXML());
+        var iq = new xmpp.Stanza('iq', { type: 'result', to: 'romeo@example.net', from: 'juliet@example.com', id: 1 });
+        connection.emit('stanza', iq);
       });
     },
     
@@ -175,9 +172,8 @@ vows.describe('application').addBatch({
         self.callback(null, stanza, res, next);
       });
       process.nextTick(function () {
-        var iq = new IQ('romeo@example.net', 'juliet@example.com', 'error');
-        iq.id = '1';
-        connection.emit('stanza', iq.toXML());
+        var iq = new xmpp.Element('iq', { type: 'error', to: 'romeo@example.net', from: 'juliet@example.com', id: '1' });
+        connection.emit('stanza', iq);
       });
     },
     
@@ -203,8 +199,8 @@ vows.describe('application').addBatch({
         self.callback(null, stanza, next);
       });
       process.nextTick(function () {
-        var message = new Message('romeo@example.net', 'juliet@example.com', 'chat');
-        connection.emit('stanza', message.toXML());
+        var message = new xmpp.Stanza('message', { type: 'chat', to: 'romeo@example.net', from: 'juliet@example.com' });
+        connection.emit('stanza', message);
       });
     },
     
@@ -233,8 +229,8 @@ vows.describe('application').addBatch({
         self.callback(null, stanza, next);
       });
       process.nextTick(function () {
-        var presence = new Presence('romeo@example.net', 'juliet@example.com', 'probe');
-        connection.emit('stanza', presence.toXML());
+        var presence = new xmpp.Stanza('presence', { type: 'probe', to: 'romeo@example.net', from: 'juliet@example.com' });
+        connection.emit('stanza', presence);
       });
     },
     
@@ -268,8 +264,8 @@ vows.describe('application').addBatch({
         self.callback(null, req, res);
       });
       process.nextTick(function () {
-        var iq = new IQ('romeo@example.net', 'juliet@example.com', 'get');
-        connection.emit('stanza', iq.toXML());
+        var iq = new xmpp.Stanza('iq', { type: 'get', to: 'romeo@example.net', from: 'juliet@example.com' });
+        connection.emit('stanza', iq);
       });
     },
     
@@ -313,8 +309,8 @@ vows.describe('application').addBatch({
       
       app.setup(connection);
       process.nextTick(function () {
-        var iq = new IQ('romeo@example.net', 'juliet@example.com', 'get');
-        connection.emit('stanza', iq.toXML());
+        var iq = new xmpp.Stanza('iq', { type: 'get', to: 'romeo@example.net', from: 'juliet@example.com' });
+        connection.emit('stanza', iq);
       });
     },
     
@@ -357,8 +353,8 @@ vows.describe('application').addBatch({
         self.callback(null, req, res);
       });
       process.nextTick(function () {
-        var iq = new IQ('romeo@example.net', 'juliet@example.com', 'get');
-        connection.emit('stanza', iq.toXML());
+        var iq = new xmpp.Stanza('iq', { type: 'get', to: 'romeo@example.net', from: 'juliet@example.com' });
+        connection.emit('stanza', iq);
       });
     },
     
