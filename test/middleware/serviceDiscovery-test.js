@@ -143,15 +143,6 @@ vows.describe('serviceDiscovery').addBatch({
         var res = new xmpp.Stanza('iq', { id: req.attrs.id,
                                            to: req.attrs.from,
                                            type: 'result' });
-        /*
-        var req = new IQ('plays.shakespeare.lit', 'romeo@montague.net/orchard', 'get');
-        req.id = 'info1';
-        req.c(new xmpp.Element('query', { xmlns: 'http://jabber.org/protocol/disco#info' }));
-        req = req.toXML();
-        req.type = req.attrs.type;
-        var res = new xmpp.Element('iq', { id: req.attrs.id,
-                                           to: req.attrs.from,
-                                           type: 'result' });*/
         
         res.send = function() {
           self.callback(null, res);
