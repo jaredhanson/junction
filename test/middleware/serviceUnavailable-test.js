@@ -1,6 +1,7 @@
 var vows = require('vows');
 var assert = require('assert');
 var events = require('events');
+var xmpp = require('node-xmpp');
 var util = require('util');
 var serviceUnavailable = require('junction/middleware/serviceUnavailable');
 
@@ -19,8 +20,8 @@ vows.describe('serviceUnavailable').addBatch({
           promise.emit('error', 'should not call next');
         }
         
-        var req = new IQ('romeo@example.net', 'juliet@example.com', 'get').toXML();
-        var res = new IQ('juliet@example.com', 'romeo@example.net', 'result').toXML();
+        var req = new xmpp.Stanza('iq', { type: 'get', to: 'romeo@example.net', from: 'juliet@example.com' });
+        var res = new xmpp.Stanza('iq', { type: 'result', from: 'romeo@example.net', to: 'juliet@example.com' });
         res.send = function() {
           promise.emit('success', res);
         }
@@ -55,9 +56,8 @@ vows.describe('serviceUnavailable').addBatch({
           promise.emit('success', rs);
         }
         
-        var req = new IQ('romeo@example.net', 'juliet@example.com', 'result').toXML();
-        req.type = 'result';
-        var res = new IQ('juliet@example.com', 'romeo@example.net', 'result').toXML();
+        var req = new xmpp.Stanza('iq', { type: 'result', to: 'romeo@example.net', from: 'juliet@example.com' });
+        var res = new xmpp.Stanza('iq', { type: 'result', from: 'romeo@example.net', to: 'juliet@example.com' });
         res.send = function() {
           promise.emit('error', 'should not call send');
         }

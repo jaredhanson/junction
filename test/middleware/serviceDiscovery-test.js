@@ -19,12 +19,9 @@ vows.describe('serviceDiscovery').addBatch({
     'when handling a service discovery request': {
       topic: function(serviceDiscovery) {
         var self = this;
-        var req = new IQ('plays.shakespeare.lit', 'romeo@montague.net/orchard', 'get');
-        req.id = 'info1';
-        req.c(new xmpp.Element('query', { xmlns: 'http://jabber.org/protocol/disco#info' }));
-        req = req.toXML();
-        req.type = req.attrs.type;
-        var res = new xmpp.Element('iq', { id: req.attrs.id,
+        var req = new xmpp.Stanza('iq', { type: 'get', to: 'plays.shakespeare.lit', from: 'romeo@montague.net/orchard', id: 'info1' });
+        req.c('query', { xmlns: 'http://jabber.org/protocol/disco#info' }).up();
+        var res = new xmpp.Stanza('iq', { id: req.attrs.id,
                                            to: req.attrs.from,
                                            type: 'result' });
         
@@ -53,12 +50,9 @@ vows.describe('serviceDiscovery').addBatch({
     'when handling a service discovery request to a node': {
       topic: function(serviceDiscovery) {
         var self = this;
-        var req = new IQ('plays.shakespeare.lit', 'romeo@montague.net/orchard', 'get');
-        req.id = 'info1';
-        req.c(new xmpp.Element('query', { xmlns: 'http://jabber.org/protocol/disco#info', node: 'books' }));
-        req = req.toXML();
-        req.type = req.attrs.type;
-        var res = new xmpp.Element('iq', { id: req.attrs.id,
+        var req = new xmpp.Stanza('iq', { type: 'get', to: 'plays.shakespeare.lit', from: 'romeo@montague.net/orchard', id: 'info1' });
+        req.c('query', { xmlns: 'http://jabber.org/protocol/disco#info', node: 'books' }).up();
+        var res = new xmpp.Stanza('iq', { id: req.attrs.id,
                                            to: req.attrs.from,
                                            type: 'result' });
         
@@ -83,12 +77,9 @@ vows.describe('serviceDiscovery').addBatch({
     'when handling a non-IQ-get service discovery request': {
       topic: function(serviceDiscovery) {
         var self = this;
-        var req = new IQ('plays.shakespeare.lit', 'romeo@montague.net/orchard', 'set');
-        req.id = 'info1';
-        req.c(new xmpp.Element('query', { xmlns: 'http://jabber.org/protocol/disco#info' }));
-        req = req.toXML();
-        req.type = req.attrs.type;
-        var res = new xmpp.Element('iq', { id: req.attrs.id,
+        var req = new xmpp.Stanza('iq', { type: 'set', to: 'plays.shakespeare.lit', from: 'romeo@montague.net/orchard', id: 'info1' });
+        req.c('query', { xmlns: 'http://jabber.org/protocol/disco#info' }).up();
+        var res = new xmpp.Stanza('iq', { id: req.attrs.id,
                                            to: req.attrs.from,
                                            type: 'result' });
         
@@ -113,10 +104,8 @@ vows.describe('serviceDiscovery').addBatch({
     'when handling an IQ stanza that is not a service discovery request': {
       topic: function(softwareVersion) {
         var self = this;
-        var iq = new IQ('romeo@example.net', 'juliet@example.com', 'get');
-        iq = iq.toXML();
-        iq.type = iq.attrs.type;
-        var res = new xmpp.Element('iq', { id: iq.attrs.id,
+        var iq = new xmpp.Stanza('iq', { type: 'get', to: 'romeo@example.net', from: 'juliet@example.com' });
+        var res = new xmpp.Stanza('iq', { id: iq.attrs.id,
                                            to: iq.attrs.from,
                                            type: 'result' });
         
@@ -149,6 +138,12 @@ vows.describe('serviceDiscovery').addBatch({
     'when handling a service discovery request': {
       topic: function(serviceDiscovery) {
         var self = this;
+        var req = new xmpp.Stanza('iq', { type: 'get', to: 'plays.shakespeare.lit', from: 'romeo@montague.net/orchard', id: 'info1' });
+        req.c('query', { xmlns: 'http://jabber.org/protocol/disco#info' }).up();
+        var res = new xmpp.Stanza('iq', { id: req.attrs.id,
+                                           to: req.attrs.from,
+                                           type: 'result' });
+        /*
         var req = new IQ('plays.shakespeare.lit', 'romeo@montague.net/orchard', 'get');
         req.id = 'info1';
         req.c(new xmpp.Element('query', { xmlns: 'http://jabber.org/protocol/disco#info' }));
@@ -156,7 +151,7 @@ vows.describe('serviceDiscovery').addBatch({
         req.type = req.attrs.type;
         var res = new xmpp.Element('iq', { id: req.attrs.id,
                                            to: req.attrs.from,
-                                           type: 'result' });
+                                           type: 'result' });*/
         
         res.send = function() {
           self.callback(null, res);
