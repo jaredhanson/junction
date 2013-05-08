@@ -116,6 +116,7 @@ that don't justify the need for a full-fledged framework.
     <tr><td><a href="https://github.com/jaredhanson/junction-ping">junction-ping</a></td><td>XMPP Ping (<a href="http://xmpp.org/extensions/xep-0199.html">XEP-0199</a>) middleware.</td></tr>
     <tr><td><a href="https://github.com/jaredhanson/junction-softwareversion">junction-softwareversion</a></td><td>Software Version (<a href="http://xmpp.org/extensions/xep-0092.html">XEP-0092</a>) middleware.</td></tr>
     <tr><td><a href="https://github.com/jaredhanson/junction-time">junction-time</a></td><td>Entity Time (<a href="http://xmpp.org/extensions/xep-0202.html">XEP-0202</a>) middleware.</td></tr>
+    <tr><td><a href="https://github.com/Daniel15/junction-caps">junction-caps</a></td><td>Entity Capabilities (<a href="http://xmpp.org/extensions/xep-0115.html">XEP-0115</a>) middleware.</td></tr>
   </tbody>
 </table>
 
