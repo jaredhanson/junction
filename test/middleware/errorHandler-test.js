@@ -1,6 +1,7 @@
 var vows = require('vows');
 var assert = require('assert');
 var events = require('events');
+var xmpp = require('node-xmpp');
 var util = require('util');
 var StanzaError = require('junction/stanzaerror');
 var errorHandler = require('junction/middleware/errorHandler');
@@ -21,8 +22,8 @@ vows.describe('errorHandler').addBatch({
         }
         
         var err = new Error();
-        var req = new IQ('romeo@example.net', 'juliet@example.com', 'get').toXML();
-        var res = new IQ('juliet@example.com', 'romeo@example.net', 'result').toXML();
+        var req = new xmpp.Stanza('iq', { type: 'get', to: 'romeo@example.net', from: 'juliet@example.com' });
+        var res = new xmpp.Stanza('iq', { type: 'result', to: 'juliet@example.com', from: 'romeo@example.net' });
         res.send = function() {
           promise.emit('success', res);
         }
@@ -55,8 +56,8 @@ vows.describe('errorHandler').addBatch({
         
         var err = new StanzaError('format your exml', 'modify', 'bad-request');
         err.specificCondition = { name: 'bar', xmlns: 'urn:foo' };
-        var req = new IQ('romeo@example.net', 'juliet@example.com', 'get').toXML();
-        var res = new IQ('juliet@example.com', 'romeo@example.net', 'result').toXML();
+        var req = new xmpp.Stanza('iq', { type: 'get', to: 'romeo@example.net', from: 'juliet@example.com' });
+        var res = new xmpp.Stanza('iq', { type: 'result', to: 'juliet@example.com', from: 'romeo@example.net' });
         res.send = function() {
           promise.emit('success', res);
         }
@@ -98,7 +99,7 @@ vows.describe('errorHandler').addBatch({
         }
         
         var err = new StanzaError('fail');
-        var req = new IQ('romeo@example.net', 'juliet@example.com', 'get').toXML();
+        var req = new xmpp.Stanza('iq', { type: 'get', to: 'romeo@example.net', from: 'juliet@example.com' });
         
         process.nextTick(function () {
           errorHandler(err, req, null, next)
@@ -125,8 +126,8 @@ vows.describe('errorHandler').addBatch({
         }
         
         var err = new StanzaError('format your exml', 'modify', 'bad-request');
-        var req = new IQ('romeo@example.net', 'juliet@example.com', 'get').toXML();
-        var res = new IQ('juliet@example.com', 'romeo@example.net', 'result').toXML();
+        var req = new xmpp.Stanza('iq', { type: 'get', to: 'romeo@example.net', from: 'juliet@example.com' });
+        var res = new xmpp.Stanza('iq', { type: 'result', to: 'juliet@example.com', from: 'romeo@example.net' });
         res.send = function() {
           promise.emit('success', res);
         }
