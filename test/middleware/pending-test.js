@@ -1,5 +1,6 @@
 var vows = require('vows');
 var assert = require('assert');
+var xmpp = require('node-xmpp');
 var util = require('util');
 var JID = require('node-xmpp').JID;
 var pending = require('junction/middleware/pending');
@@ -48,9 +49,8 @@ vows.describe('pending').addBatch({
     'when handling a result with pending data': {
       topic: function(pending, store) {
         var self = this;
-        var res = new IQ('romeo@montague.net/orchard', 'plays.shakespeare.lit', 'result');
-        res = res.toXML();
-        res.id = 'iq_1';
+        var res = new xmpp.Stanza('iq', { type: 'result', to: 'romeo@montague.net/orchard', from: 'plays.shakespeare.lit', id: 'iq_1' });
+        res.id = res.attrs.id;
         res.from = new JID(res.attrs.from)
         res.type = res.attrs.type;
         
@@ -81,9 +81,8 @@ vows.describe('pending').addBatch({
     'when handling an error with pending data': {
       topic: function(pending, store) {
         var self = this;
-        var res = new IQ('romeo@montague.net/orchard', 'plays.shakespeare.lit', 'error');
-        res = res.toXML();
-        res.id = 'iq_1';
+        var res = new xmpp.Stanza('iq', { type: 'error', to: 'romeo@montague.net/orchard', from: 'plays.shakespeare.lit', id: 'iq_1' });
+        res.id = res.attrs.id;
         res.from = new JID(res.attrs.from)
         res.type = res.attrs.type;
         
@@ -114,9 +113,8 @@ vows.describe('pending').addBatch({
     'when handling a result without pending data': {
       topic: function(pending, store) {
         var self = this;
-        var res = new IQ('romeo@montague.net/orchard', 'plays.shakespeare.lit', 'result');
-        res = res.toXML();
-        res.id = 'iq_2';
+        var res = new xmpp.Stanza('iq', { type: 'result', to: 'romeo@montague.net/orchard', from: 'plays.shakespeare.lit', id: 'iq_2' });
+        res.id = res.attrs.id;
         res.from = new JID(res.attrs.from)
         res.type = res.attrs.type;
         
@@ -158,9 +156,8 @@ vows.describe('pending').addBatch({
     'when handling an incoming set stanza': {
       topic: function(pending, store) {
         var self = this;
-        var res = new IQ('romeo@montague.net/orchard', 'plays.shakespeare.lit', 'set');
-        res = res.toXML();
-        res.id = 'iq_1';
+        var res = new xmpp.Stanza('iq', { type: 'set', to: 'romeo@montague.net/orchard', from: 'plays.shakespeare.lit', id: 'iq_1' });
+        res.id = res.attrs.id;
         res.from = new JID(res.attrs.from)
         res.type = res.attrs.type;
         
@@ -192,9 +189,8 @@ vows.describe('pending').addBatch({
     'when handling a result with pending data': {
       topic: function(pending, store) {
         var self = this;
-        var res = new IQ('romeo@montague.net/orchard', 'plays.shakespeare.lit', 'result');
-        res = res.toXML();
-        res.id = 'iq_X';
+        var res = new xmpp.Stanza('iq', { type: 'result', to: 'romeo@montague.net/orchard', from: 'plays.shakespeare.lit', id: 'iq_X' });
+        res.id = res.attrs.id;
         res.from = new JID(res.attrs.from)
         res.type = res.attrs.type;
         
@@ -237,9 +233,8 @@ vows.describe('pending').addBatch({
     'when handling a result with pending data': {
       topic: function(pending, store) {
         var self = this;
-        var res = new IQ('romeo@montague.net/orchard', 'plays.shakespeare.lit', 'result');
-        res = res.toXML();
-        res.id = 'iq_1';
+        var res = new xmpp.Stanza('iq', { type: 'result', to: 'romeo@montague.net/orchard', from: 'plays.shakespeare.lit', id: 'iq_1' });
+        res.id = res.attrs.id;
         res.from = new JID(res.attrs.from)
         res.type = res.attrs.type;
         
