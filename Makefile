@@ -1,19 +1,42 @@
-NODE = node
-TEST = ./node_modules/.bin/vows
-TESTS ?= test/*-test.js test/**/*-test.js test/**/**/*-test.js
+SOURCES = lib/junction/*.js lib/junction/**/*.js
+TESTS = test/*-test.js test/**/*-test.js test/**/**/*-test.js
 
-test:
-	@NODE_ENV=test NODE_PATH=lib $(TEST) $(TEST_FLAGS) $(TESTS)
+# ==============================================================================
+# Node Tests
+# ==============================================================================
 
-docs: docs/api.html
+VOWS = ./node_modules/.bin/vows
 
-docs/api.html: lib/junction/*.js
-	dox \
-		--title Junction \
-		--desc "Essential XMPP middleware for Node.js" \
-		$(shell find lib/junction/* -type f) > $@
+test: test-node
+test-node: node_modules
+	@NODE_ENV=test NODE_PATH=lib $(VOWS) $(TESTS)
 
-docclean:
-	rm -f docs/*.{1,html}
+node_modules:
+	npm install
 
-.PHONY: test docs docclean
+
+# ==============================================================================
+# Code Quality
+# ==============================================================================
+
+JSHINT = jshint
+
+hint: lint
+lint:
+	$(JSHINT) $(SOURCES)
+
+
+# ==============================================================================
+# Clean
+# ==============================================================================
+
+clean:
+	rm -rf build
+
+clobber: clean
+	rm -rf node_modules
+	rm -rf components
+	rm -rf test/www/js/lib
+
+
+.PHONY: test test-node hint lint clean clobber
