@@ -1,5 +1,6 @@
 var vows = require('vows');
 var assert = require('assert');
+var xmpp = require('node-xmpp');
 var util = require('util');
 var junction = require('junction');
 var capabilitiesParser = require('junction/middleware/capabilitiesParser');
@@ -65,8 +66,7 @@ vows.describe('capabilitiesParser').addBatch({
     'when handling a non-presence stanza': {
       topic: function(capabilitiesParser) {
         var self = this;
-        var iq = new IQ('romeo@example.net', 'juliet@example.com', 'get');
-        iq = iq.toXML();
+        var iq = new xmpp.Stanza('iq', { type: 'get', to: 'romeo@example.net', from: 'juliet@example.com' });
         
         function next(err) {
           self.callback(err, iq);

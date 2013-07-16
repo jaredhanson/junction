@@ -125,9 +125,8 @@ vows.describe('pending').addBatch({
     'when processing an outgoing stanza with pending data': {
       topic: function(pending, store) {
         var self = this;
-        var res = new IQ('plays.shakespeare.lit', 'romeo@montague.net/orchard', 'get');
+        var res = new xmpp.Stanza('iq', { type: 'get', to: 'plays.shakespeare.lit', from: 'romeo@montague.net/orchard', id: 'iq_1' });
         res.id = 'iq_1';
-        res = res.toXML();
         res.pending = {};
         res.pending.action = 'open';
         
