@@ -10,6 +10,12 @@ which provides HTTP middleware.  Junction adopts this approach, repurposing it
 for use in XMPP, allowing XMPP applications to be built quickly and easily,
 while harnessing the powerful patterns familiar to Node.js developers.
 
+---
+
+<p align="center"><a href="http://www.kqzyfj.com/click-8907558-13385063" target="_top">ZenMate Premium VPN</a> up to 40% off</p>
+
+---
+
 ## Installation
 
     $ npm install junction
